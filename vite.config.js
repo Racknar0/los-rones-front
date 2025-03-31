@@ -4,7 +4,7 @@ import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/administracion/',
+  base: '/administracion',
   build: {
     outDir: 'administracion', // Cambiar el directorio de salida
   },

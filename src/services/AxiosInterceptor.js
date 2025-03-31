@@ -1,9 +1,9 @@
 import axios from 'axios';
 // import { getState } from '../store/useStore';
-
+const BACK_HOST = import.meta.env.VITE_BACK_HOST;
 // Crear una instancia de Axios
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3001/api",
+  baseURL: BACK_HOST,
   headers: {
     'Content-Type': 'application/json',
   },

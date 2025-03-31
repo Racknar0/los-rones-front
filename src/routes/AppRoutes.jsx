@@ -9,9 +9,10 @@ import Productos from '../pages/dashboard/Productos'
 import Usuarios from '../pages/dashboard/Usuarios'
 
 const AppRoutes = () => {
+  
   return (
     <Routes>
-        <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
       
       {/* Ruta principal que incluye el sidenav y el contenido */}
       <Route path="/dashboard" element={<Layout />}>
@@ -22,6 +23,8 @@ const AppRoutes = () => {
         <Route path="usuarios" element={<PrivateRoute element={<Usuarios />} />} />
         {/* Otras rutas pueden ser agregadas aquí */}
       </Route>
+
+      <Route path="*" element={<Navigate to="/dashboard/statics" replace />} />
     </Routes>
   )
 }

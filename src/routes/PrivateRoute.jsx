@@ -10,7 +10,7 @@ const PrivateRoute = ({ element }) => {
 
         console.log('No hay token:', token);
 
-        return <Navigate to="/login" replace />;
+        return <Navigate to="/" replace />;
     }
 
     // Si el token existe (usuario está logeado), permite el acceso a la ruta protegida
