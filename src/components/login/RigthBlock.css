@@ -1,0 +1,16 @@
+.right_block_login_container{
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.right_block_login_container img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Asegura que la imagen cubra el contenedor sin distorsionarse */
+    border-radius: 0px 0px 0px 0px; /* Cambia los valores según tus necesidades */
+}

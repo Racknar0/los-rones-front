@@ -1,12 +1,16 @@
 import React from 'react'
 import { Navigate, Routes } from 'react-router'
-import Dashboard from '../pages/dashboard/Dashboard'
+import Dashboard from '../pages/dashboard/Dashboard/Dashboard'
 import Login from '../pages/Login'
 import { Route } from 'react-router'
 import PrivateRoute from './PrivateRoute'
-import Layout from '../pages/dashboard/Layout'
-import Productos from '../pages/dashboard/Productos'
-import Usuarios from '../pages/dashboard/Usuarios'
+import Layout from '../pages/dashboard/Layout/Layout'
+import Productos from '../pages/dashboard/Productos/Productos'
+import Usuarios from '../pages/dashboard/Usuarios/Usuarios'
+import Cupones from '../pages/dashboard/Cupones/Cupones'
+import Recibos from '../pages/dashboard/Recibos/Recibos'
+import Cortes from '../pages/dashboard/Cortes/Cortes'
+import Reportes from '../pages/dashboard/Reportes/Reportes'
 
 const AppRoutes = () => {
   
@@ -21,6 +25,10 @@ const AppRoutes = () => {
         <Route path="statics" element={<PrivateRoute element={<Dashboard />} />} />
         <Route path="productos" element={<PrivateRoute element={<Productos />} />} />
         <Route path="usuarios" element={<PrivateRoute element={<Usuarios />} />} />
+        <Route path="cupones" element={<PrivateRoute element={<Cupones />} />} />
+        <Route path="recibos" element={<PrivateRoute element={<Recibos />} />} />
+        <Route path="cortes" element={<PrivateRoute element={<Cortes />} />} />
+        <Route path="reportes" element={<PrivateRoute element={<Reportes />} />} />
         {/* Otras rutas pueden ser agregadas aquí */}
       </Route>
 

@@ -1,0 +1,156 @@
+.left_block_login_container{
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 100%;
+    height: 100%;
+    padding-top: 15px;
+
+}
+
+
+.left_block_login_container .left_block_brand{
+ width: 100%;
+}
+
+
+
+.left_block_login_container .left_block_brand .logo_login{
+    width: 100px;
+    margin: 0 auto;
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .left_block_login_container .left_block_brand .logo_login{
+        display: block;
+    }
+}
+
+
+.left_block_login_container .left_block_brand .title_login{
+    font-size: 3rem;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 700;
+    font-family: 'Luckiest Guy', cursive;
+    letter-spacing: 0.1rem;
+    text-shadow: 
+       -2px -2px 0 rgb(102, 102, 102),
+       2px -2px 0 rgb(102, 102, 102),
+       -2px 2px 0 rgb(102, 102, 102),
+       2px 2px 0 rgb(102, 102, 102);
+}
+
+
+.left_block_login_container .left_block_greeting{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+}
+
+@media (min-width: 768px) {
+    .left_block_login_container .left_block_greeting{
+        flex-direction: row;
+    }
+}
+
+
+.left_block_login_container .left_block_greeting .greeting_login{
+    font-size: 2rem;
+    color: #ffffff;
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Luckiest Guy', cursive;
+    letter-spacing: 0.1rem;
+}
+
+.left_block_login_container .left_block_greeting .remember_pass{
+    text-decoration: underline;
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.left_block_login_container .left_block_greeting .remember_pass:hover{
+    color: #ffa94d;
+}
+
+.left_block_login_container .left_block_form{
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+
+.left_block_login_container .form_login{
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+
+.left_block_login_container .form_login .input_group{
+   display: flex;
+   flex-direction: column;
+   margin-bottom: 10px;
+}
+
+.left_block_login_container .form_login .label{
+    font-size: 1.5rem;
+    color: #ffffff;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 5px;
+}
+
+.left_block_login_container .form_login .label{
+    font-size: 1.5rem;
+    color: #ffffff;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 5px;
+}
+
+.left_block_login_container .form_login .input_text{
+    width: 100%;
+    padding: 7px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ffffff;
+    font-size: 1.5rem;
+    color: #000000;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.left_block_login_container .form_login .input_text:focus{
+    outline: none;
+    box-shadow: 0 0 5px #ffa94d;
+}
+
+.left_block_login_container .form_login .input_select{
+    width: 100%;
+    padding: 7px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ffffff;
+    font-size: 1.5rem;
+    color: #000000;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.spinner_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin-top: 30px;
+}

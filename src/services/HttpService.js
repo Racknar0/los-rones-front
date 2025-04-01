@@ -3,7 +3,7 @@ import axiosInstance from './AxiosInterceptor.js';
 export default class HttpService {
   async getData(url) {
     // tiempo de retraso
-    // await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     return axiosInstance.get(url).then((response) => {
       // console.log('Response getData ------------------------:');
       // console.log(JSON.stringify(response, null, 2));

@@ -3,6 +3,10 @@ import HttpService from '../services/HttpService';
 import { errorAlert, successAlert, timerAlert } from '../helpers/alerts';
 import useStore from '../store/useStore';
 import { useNavigate } from 'react-router';
+import LeftBlock from '../components/login/LeftBlock';
+import RigthBlock from '../components/login/RigthBlock';
+import './Login.scss';
+import DogButton from '../components/buttons/DogButton';
 
 const Login = () => {
     const login = useStore((state) => state.login);
@@ -12,6 +16,7 @@ const Login = () => {
 
     const [username, setUsername] = useState('racknaro');
     const [password, setPassword] = useState('123456');
+    const [tienda, setTienda] = useState('');
     const [loading, setLoading] = useState(false);
 
     const tiendas = [
@@ -37,32 +42,42 @@ const Login = () => {
         const data = {
             username: username,
             password: password,
+            tienda: tienda,
         };
+
+        // Validar el formulario
+        if (!username || !password || !tienda) {
+            errorAlert('Error', 'Por favor completa todos los campos', 2000);
+            return;
+        }
 
         handleLogin(data);
     };
 
     const handleLogin = async (data) => {
-        // await timerAlert('Bienvenido', 'Acceso exitoso', 2000).then(() => {
-        //     navigate('/dashboard'); // Redirigir al dashboard después de login exitoso
-        // });
         try {
             setLoading(true);
+            
             const response = await httpService.postData('/auth/login', data);
 
             if (response.status === 200) {
                 const token = response.data.token;
                 login(token); // Guardar el token en el store
-                await timerAlert('Bienvenido', 'Acceso exitoso', 2000).then(() => {
-                    navigate('/dashboard'); // Redirigir al dashboard después de login exitoso
-                });
+                await timerAlert('Bienvenido', 'Acceso exitoso', 2000).then(
+                    () => {
+                        navigate('/dashboard'); // Redirigir al dashboard después de login exitoso
+                    }
+                );
             } else {
                 console.error('Error:', response);
             }
         } catch (error) {
             console.error('Error:', error);
-            await errorAlert('Error', `${error.response?.data?.message || 'Login failed'}`, 2000)
-            .then(() => {
+            await errorAlert(
+                'Error',
+                `${error.response?.data?.message || 'Login failed'}`,
+                2000
+            ).then(() => {
                 setUsername(''); // Limpiar el campo de usuario
                 setPassword(''); // Limpiar el campo de contraseña
             });
@@ -72,8 +87,26 @@ const Login = () => {
     };
 
     return (
-        <div className="container mt-5">
-            <div className="row justify-content-center">
+        <div className=" main_container_login">
+            <div className="container_login">
+                <div className="left_block_login">
+                    <LeftBlock
+                        handleSubmit={handleSubmit}
+                        username={username}
+                        setUsername={setUsername}
+                        password={password}
+                        setPassword={setPassword}
+                        loading={loading}
+                        tiendas={tiendas}
+                        setTienda={setTienda}
+                    />
+                </div>
+                <div className="right_block_login">
+                    <RigthBlock />
+                </div>
+            </div>
+
+            {/* <div className="row justify-content-center">
                 <div className="col-md-4">
                     <h2 className="text-center mb-4">Login</h2>
                     <form onSubmit={handleSubmit}>
@@ -103,7 +136,6 @@ const Login = () => {
                                 required
                             />
                         </div>
-                        {/* select para seleccionar tienda  americas ocampo  xalapacrystal mocambo*/}
                         <div className="mb-3">
                             <label htmlFor="tienda" className="form-label">
                                 Tienda
@@ -130,7 +162,7 @@ const Login = () => {
                         </button>
                     </form>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };
