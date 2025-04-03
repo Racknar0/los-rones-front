@@ -15,7 +15,7 @@ const Login = () => {
     const token = useStore((state) => state.token); // Obtener el token del store
 
     const [username, setUsername] = useState('racknaro');
-    const [password, setPassword] = useState('123456');
+    const [password, setPassword] = useState('camilo2676');
     const [tienda, setTienda] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -105,64 +105,6 @@ const Login = () => {
                     <RigthBlock />
                 </div>
             </div>
-
-            {/* <div className="row justify-content-center">
-                <div className="col-md-4">
-                    <h2 className="text-center mb-4">Login</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                            <label htmlFor="username" className="form-label">
-                                Email
-                            </label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="password" className="form-label">
-                                Password
-                            </label>
-                            <input
-                                type="password"
-                                className="form-control"
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="tienda" className="form-label">
-                                Tienda
-                            </label>
-                            <select
-                                className="form-select"
-                                id="tienda"
-                                required
-                            >
-                                {tiendas.map((tienda) => (
-                                    <option key={tienda.id} value={tienda.id}>
-                                        {tienda.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <button
-                            type="submit"
-                            className="btn btn-primary w-100"
-                            disabled={loading}
-                        >
-                            {loading ? 'Accediendo...' : 'Acceder'}
-                        </button>
-                    </form>
-                </div>
-            </div> */}
         </div>
     );
 };

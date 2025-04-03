@@ -33,7 +33,7 @@ export default class HttpService {
   }
 
   async putData(url, id, data) {
-    return axiosInstance.put(`${url}/${id}`, data).then((response) => {
+    return axiosInstance.patch(`${url}/${id}`, data).then((response) => {
       // console.log('Response updateData ------------------------:');
       // console.log(JSON.stringify(response, null, 2));
       return response;
@@ -41,7 +41,10 @@ export default class HttpService {
   }
 
   async putFormData(url, id, data) {
-    return axiosInstance.put(`${url}/${id}`, data, {
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    return axiosInstance.patch(`${url}/${id}`, data, {
       headers: { 'Content-Type': 'multipart/form-data' },
     }).then((response) => {
       // console.log('Response updateFormData ------------------------:');

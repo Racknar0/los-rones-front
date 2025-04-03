@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import { getState } from '../store/useStore';
+import { getState } from '../store/useStore';
 const BACK_HOST = import.meta.env.VITE_BACK_HOST;
 // Crear una instancia de Axios
 const axiosInstance = axios.create({
@@ -16,9 +16,8 @@ axiosInstance.interceptors.request.use(
     // console.log('⚠️ Config------------------------:');
     // console.log(JSON.stringify(config, null, 2));
 
-    // let token = null; 
-    // const token = getState().token; 
-    // if (token) config.headers.Authorization = `Bearer ${token}`;
+    const token = getState().token; 
+    if (token) config.headers.Authorization = `Bearer ${token}`;
     
     return config;
   },

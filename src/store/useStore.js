@@ -45,13 +45,13 @@ const useStore = create(
 
 export default useStore;
 
-// export const getState = useStore.getState;
+export const getState = useStore.getState;
 
 // Suscribirte a todos los cambios de estado
 useStore.subscribe(
     (state) => state, // Selector: monitorea todo el estado
     (state) => {
         console.log('Estado actualizado-------------------->:')
-        console.log(JSON.stringify(state, null, 2));
+        console.log(state);
     } // Callback ejecutado cada vez que el estado cambia
 );

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './Tableusers.scss';
+import './TableRoles.scss';
 import { DeleteIcon } from '../../../../components/icons/DeleteIcon';
 import { EditIcon } from '../../../../components/icons/EditIcon';
 import Spinner from '../../../../components/spinner/Spinner';
@@ -11,32 +11,31 @@ import {
 } from '../../../../helpers/alerts';
 import HttpService from '../../../../services/HttpService';
 
-const TableUsers = ({
+const TableRoles = ({
     loading,
     setLoading,
-    usersData = [],
-    getUsers,
+    rolesData = [],
+    getRoles,
     handleTabChange,
-    setEditData,
+    setEditData
 }) => {
     const httpService = new HttpService();
 
+    console.log('rolesData', rolesData);
+
     useEffect(() => {
-        getUsers();
+        getRoles();
         setEditData({
             edit: false,
-            userToEdit: null,
+            roleToEdit: null,
         });
-        
     }, []);
 
-    const BACK_HOST = import.meta.env.VITE_BACK_HOST;
 
-    const handleDeleteUser = async (userId) => {
-        console.log('ID del usuario a eliminar:', userId); // Verifica el ID del usuario que se va a eliminar
+    const handleDeleteRol = async (roleId) => {
 
         const confirmDelete = await confirmAlert(
-            '¿Está seguro que desea eliminar este usuario?',
+            '¿Está seguro que desea eliminar este rol?',
             'Esta acción no se puede deshacer.',
             'warning'
         );
@@ -45,13 +44,13 @@ const TableUsers = ({
 
         try {
             setLoading(true);
-            const response = await httpService.deleteData('/users', userId);
+            const response = await httpService.deleteData('/roles', roleId);
             if (response.status === 200) {
                 successAlert(
-                    'Usuario eliminado',
-                    `El usuario ha sido eliminado exitosamente.`
+                    'Rol eliminado',
+                    `El rol ha sido eliminado exitosamente.`
                 );
-                getUsers(); // Actualiza la lista de usuarios después de eliminar
+                getRoles(); // Actualiza la lista de usuarios después de eliminar
             } else {
                 errorAlert('Error', 'No se pudo eliminar el usuario');
             }
@@ -69,29 +68,26 @@ const TableUsers = ({
                 <thead>
                     <tr>
                         <th>Acciones</th>
-                        <th>Usuario</th>
-                        <th>Correo</th>
-                        <th>Nombre</th>
-                        <th>Imagen</th>
-                        <th>Último Login</th>
-                        <th>Activo</th>
-                        <th>Rol</th>
+                        <th>Id</th>
+                        <th>Nombre del Rol</th>
+                        <th>Fecha de Creación</th>
+                        <th>Fecha de Modificación</th>
                     </tr>
                 </thead>
                 <tbody>
                     {!loading &&
-                        usersData &&
-                        usersData.length > 0 &&
-                        usersData.map((u, index) => (
+                        rolesData &&
+                        rolesData.length > 0 &&
+                        rolesData.map((u, index) => (
                             <tr key={index}>
                                 <td>
                                     <button
                                         className="btn btn-sm btn-primary me-2"
                                         onClick={() => {
-                                            handleTabChange('crear');
+                                            handleTabChange('crear_rol');
                                             setEditData({
                                                 edit: true,
-                                                userToEdit: u,
+                                                roleToEdit: u,
                                             })
                                         }}
                                     >
@@ -103,7 +99,7 @@ const TableUsers = ({
                                     </button>
                                     <button
                                         className="btn btn-sm btn-danger"
-                                        onClick={() => handleDeleteUser(u.id)}
+                                        onClick={() => handleDeleteRol(u.id)}
                                     >
                                         <DeleteIcon
                                             width={20}
@@ -112,36 +108,10 @@ const TableUsers = ({
                                         />
                                     </button>
                                 </td>
-                                <td>{u.user || 'No disponible'}</td>
-                                <td>{u.email || 'No disponible'}</td>
-                                <td>{u.name + ' ' + u.lastName || 'No disponible'}</td>
-                                <td>
-                                    <img
-                                        // src={
-                                        //     BACK_HOST +
-                                        //     u.profilePicture ||
-                                        //     'https://placehold.co/30x30'}
-                                        src={
-                                            u.profilePicture
-                                                ? BACK_HOST +
-                                                  '/' +
-                                                  u.profilePicture
-                                                : userDefaultImg
-                                        }
-                                        alt="profile"
-                                        width="50"
-                                        height="50"
-                                    />
-                                </td>
-                                <td>
-                                    {u.lastLogin
-                                        ? new Date(u.lastLogin).toLocaleString()
-                                        : 'Nunca'}
-                                </td>
-                                <td>{u.isActive ? 'Sí' : 'No'}</td>
-                                <td>
-                                    {u.role?.name || 'No disponible'}
-                                </td>
+                                <td>{u.id || 'No disponible'}</td>
+                                <td>{u.name || 'No disponible'}</td>
+                                <td>{u.createdAt.split('T')[0] || 'No disponible'}</td>
+                                <td>{u.updatedAt.split('T')[0] || 'No disponible'}</td>
                             </tr>
                         ))}
                 </tbody>
@@ -155,4 +125,4 @@ const TableUsers = ({
     );
 };
 
-export default TableUsers;
+export default TableRoles;

@@ -43,7 +43,9 @@ const Layout = () => {
 
         <div className="header_user_container">
                 <div className='image_logouser_container'>
-                    <img className='image_logouser' src={userImage} alt="Logo de usuario" />
+                    <img className='image_logouser' src={
+                      jwtData?.userImage ? `${import.meta.env.VITE_BACK_HOST}/${jwtData.userImage}` : userImage
+                    } alt="Logo de usuario" />
                 </div>
                 <div className='user_info_container'>
                     <div className='user_name_container'>
@@ -54,10 +56,7 @@ const Layout = () => {
                     <div className='user_role_container'>
                         <p className='user_role'>
                           {
-                            jwtData?.roleId === 1 ? 'Asesor' :
-                            jwtData?.rol === 2 ? 'Administrador' :
-                            jwtData?.rol === 3 ? 'Moderador' :
-                            'Rol no disponible'
+                            jwtData?.role || 'Rol no disponible'
                           }
                         </p>
                     </div>
