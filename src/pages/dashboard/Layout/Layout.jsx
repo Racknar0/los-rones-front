@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router'; 
-import Sidebar from '../../../components/dashboard/Sidebar';
+import Sidebar from '../../../components/Sidebar/Sidebar';
 import './Layout.scss'; 
 import { confirmAlert } from '../../../helpers/alerts';
 import { CollapseIcon } from '../../../components/icons/CollapseIcon';
@@ -12,6 +12,7 @@ const Layout = () => {
   const [toggled, setToggled] = useState(false);
   const [broken, setBroken] = useState( window.matchMedia('(max-width: 768px)').matches ); // Estado para manejar el colapso del sidenav en pantallas pequeñas
   const jwtData = useStore((state) => state.jwtData);
+  const logout = useStore((state) => state.logout);
 
 
     const handleLogout = async () => {
@@ -22,14 +23,13 @@ const Layout = () => {
           'warning'
         );
 
-        console.log(confirmLogout);
-
         if (!confirmLogout) return; // Si el usuario cancela, no hacemos nada
 
+        logout(); // Llama a la función de cierre de sesión del store
         // Borrar localStorage o realizar cualquier acción de cierre de sesión aquí
         localStorage.removeItem('token');
-        // Redirigir al usuario a la página de inicio de sesión
-        window.location.href = '/';
+        // Recargar la página 
+        // window.location.reload();
         
     };
 
@@ -38,7 +38,11 @@ const Layout = () => {
       <header className="header">
 
         <div className='header_title_container'>
-          <h1 className='header_title'>Administración</h1>
+          <h1 className='header_title'>
+            {
+              jwtData?.store?.name ? jwtData.store.name : jwtData?.roleId === 2 ? 'Administrador' : 'Tienda no disponible'
+            }
+          </h1>
         </div>
 
         <div className="header_user_container">

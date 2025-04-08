@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
 import './TableRoles.scss';
-import { DeleteIcon } from '../../../../components/icons/DeleteIcon';
-import { EditIcon } from '../../../../components/icons/EditIcon';
-import Spinner from '../../../../components/spinner/Spinner';
-import userDefaultImg from '../../../../assets/user_default.png';
+import { DeleteIcon } from '../../../../../components/icons/DeleteIcon';
+import { EditIcon } from '../../../../../components/icons/EditIcon';
+import Spinner from '../../../../../components/spinner/Spinner';
 import {
     confirmAlert,
     errorAlert,
     successAlert,
-} from '../../../../helpers/alerts';
-import HttpService from '../../../../services/HttpService';
+} from '../../../../../helpers/alerts';
+import HttpService from '../../../../../services/HttpService';
 
 const TableRoles = ({
     loading,
@@ -20,8 +19,6 @@ const TableRoles = ({
     setEditData
 }) => {
     const httpService = new HttpService();
-
-    console.log('rolesData', rolesData);
 
     useEffect(() => {
         getRoles();

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getState } from '../store/useStore';
+import { errorAlert, timerAlert, timerAlertWhitoutButton } from '../helpers/alerts';
 const BACK_HOST = import.meta.env.VITE_BACK_HOST;
 // Crear una instancia de Axios
 const axiosInstance = axios.create({
@@ -33,11 +34,19 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
+    // console.error('⚠️ Error------------------------:', error);
     // console.error(`❌ [Request Error] -> ${error.config?.method?.toUpperCase()} ${error.config?.baseURL}${error.config?.url}`);
-    
+
     if (error.response) {
       // Si el servidor respondió con un estado diferente de 2xx
     //  console.error(`⚠️ [Response Error] -> ${error.response.status}: ${JSON.stringify(error.response.data)}`);
+
+      if (error.response.status === 401) {
+        // Si el error es 401 Unauthorized, muestra la alerta y luego cierra sesión
+        localStorage.removeItem('token'); // Elimina el token
+        window.location.href = '/'; // Redirige al login
+      }
+
     } else if (error.request) {
       // Si la solicitud fue hecha pero no hubo respuesta
      console.error("⚠️ [No Response]:", error.request);

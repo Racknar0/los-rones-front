@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import './Tableusers.scss';
-import { DeleteIcon } from '../../../../components/icons/DeleteIcon';
-import { EditIcon } from '../../../../components/icons/EditIcon';
-import Spinner from '../../../../components/spinner/Spinner';
-import userDefaultImg from '../../../../assets/user_default.png';
+import { DeleteIcon } from '../../../../../components/icons/DeleteIcon';
+import { EditIcon } from '../../../../../components/icons/EditIcon';
+import Spinner from '../../../../../components/spinner/Spinner';
+import userDefaultImg from '../../../../../assets/user.png';
 import {
     confirmAlert,
     errorAlert,
     successAlert,
-} from '../../../../helpers/alerts';
-import HttpService from '../../../../services/HttpService';
+} from '../../../../../helpers/alerts';
+import HttpService from '../../../../../services/HttpService';
 
 const TableUsers = ({
     loading,
@@ -33,7 +33,6 @@ const TableUsers = ({
     const BACK_HOST = import.meta.env.VITE_BACK_HOST;
 
     const handleDeleteUser = async (userId) => {
-        console.log('ID del usuario a eliminar:', userId); // Verifica el ID del usuario que se va a eliminar
 
         const confirmDelete = await confirmAlert(
             '¿Está seguro que desea eliminar este usuario?',
@@ -69,13 +68,14 @@ const TableUsers = ({
                 <thead>
                     <tr>
                         <th>Acciones</th>
+                        <th>Tienda</th>
                         <th>Usuario</th>
+                        <th>Rol</th>
                         <th>Correo</th>
                         <th>Nombre</th>
                         <th>Imagen</th>
                         <th>Último Login</th>
                         <th>Activo</th>
-                        <th>Rol</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -112,7 +112,14 @@ const TableUsers = ({
                                         />
                                     </button>
                                 </td>
+                                {/* <td>{u.store?.name ? u.store.name : (u.roleId === 2 ? "ADM" : "No disponible")}</td> */}
+                                <td style={{
+                                    fontWeight: 'bold',
+                                }}>{ u.roleId === 2 ? "ALL" :  (u.store?.name || 'No disponible') }</td>
                                 <td>{u.user || 'No disponible'}</td>
+                                <td>
+                                    {u.role?.name || 'No disponible'}
+                                </td>
                                 <td>{u.email || 'No disponible'}</td>
                                 <td>{u.name + ' ' + u.lastName || 'No disponible'}</td>
                                 <td>
@@ -139,9 +146,7 @@ const TableUsers = ({
                                         : 'Nunca'}
                                 </td>
                                 <td>{u.isActive ? 'Sí' : 'No'}</td>
-                                <td>
-                                    {u.role?.name || 'No disponible'}
-                                </td>
+                                
                             </tr>
                         ))}
                 </tbody>

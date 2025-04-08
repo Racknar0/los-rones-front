@@ -18,13 +18,7 @@ const Login = () => {
     const [password, setPassword] = useState('camilo2676');
     const [tienda, setTienda] = useState('');
     const [loading, setLoading] = useState(false);
-
-    const tiendas = [
-        { id: 1, name: 'Americas' },
-        { id: 2, name: 'Ocampo' },
-        { id: 3, name: 'XalapaCrystal' },
-        { id: 4, name: 'Mocambo' },
-    ];
+    const [tiendas, setTiendas] = useState([]);
 
     // Si el token ya existe, redirige al dashboard
     useEffect(() => {
@@ -32,6 +26,31 @@ const Login = () => {
             navigate('/dashboard'); // Redirige al Dashboard si ya estás logeado
         }
     }, [token, navigate]);
+
+    useEffect(() => {
+        const fetchTiendas = async () => {
+            try {
+                setLoading(true);
+                const response = await httpService.getData('/stores');
+                if (response.status === 200) {
+                    // setTienda(response.data[0].id); // Establecer la primera tienda como predeterminada
+                    console.log('Tiendas:', response.data);
+                    setTiendas(response.data); // Establecer la primera tienda como predeterminada
+                } else {
+                    console.error('Error:', response);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                setLoading(false);
+            }
+        } 
+
+        if (!token) {
+            fetchTiendas(); // Solo obtener tiendas si no hay token
+        }
+    }, []);
+
 
     // Si el token existe, no renderizamos el formulario de login, solo redirigimos
     if (token) return null;

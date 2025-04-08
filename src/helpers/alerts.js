@@ -49,3 +49,15 @@ export const confirmAlert = async (title = 'Are you sure?', message = 'Are you s
   })
   return result.isConfirmed
 }
+
+export const timerAlertWhitoutButton = async (title = 'Error', message = 'Su sesión ha expirado. Por favor, inicie sesión nuevamente.', timer = 5000) => {
+  return Swal.fire({
+    position: "top-end",
+    icon: "error",
+    title: title,
+    text: message,
+    showConfirmButton: false,
+    timer: timer,
+    timerProgressBar: true,
+  });
+};

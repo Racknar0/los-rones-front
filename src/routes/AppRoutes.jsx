@@ -10,7 +10,10 @@ import Usuarios from '../pages/dashboard/Usuarios/Usuarios'
 import Cupones from '../pages/dashboard/Cupones/Cupones'
 import Recibos from '../pages/dashboard/Recibos/Recibos'
 import Cortes from '../pages/dashboard/Cortes/Cortes'
-import Reportes from '../pages/dashboard/Reportes/Reportes'
+import Reportes from '../pages/dashboard/Ventas/Ventas'
+import Ventas from '../pages/dashboard/Ventas/Ventas'
+import Apartados from '../pages/dashboard/Apartados/Apartados'
+import CambioTienda from '../pages/dashboard/CambioTienda/CambioTienda'
 
 const AppRoutes = () => {
   
@@ -21,18 +24,20 @@ const AppRoutes = () => {
       {/* Ruta principal que incluye el sidenav y el contenido */}
       <Route path="/dashboard" element={<Layout />}>
         {/* Definir rutas dentro de Layout */}
-        <Route index element={<Navigate to="statics" replace />} />
-        <Route path="statics" element={<PrivateRoute element={<Dashboard />} />} />
+        <Route index element={<Navigate to="reportes" replace />} />
+        <Route path="reportes" element={<PrivateRoute element={<Dashboard />} />} />
+        <Route path="ventas" element={<PrivateRoute element={<Ventas />} />} />
         <Route path="productos" element={<PrivateRoute element={<Productos />} />} />
         <Route path="usuarios" element={<PrivateRoute element={<Usuarios />} />} />
         <Route path="cupones" element={<PrivateRoute element={<Cupones />} />} />
         <Route path="recibos" element={<PrivateRoute element={<Recibos />} />} />
         <Route path="cortes" element={<PrivateRoute element={<Cortes />} />} />
-        <Route path="reportes" element={<PrivateRoute element={<Reportes />} />} />
+        <Route path="apartados" element={<PrivateRoute element={<Apartados />} />} />
+        <Route path="cambio-tienda" element={<PrivateRoute element={<CambioTienda />} />} />
         {/* Otras rutas pueden ser agregadas aquí */}
       </Route>
 
-      <Route path="*" element={<Navigate to="/dashboard/statics" replace />} />
+      <Route path="*" element={<Navigate to="/dashboard/reportes" replace />} />
     </Routes>
   )
 }

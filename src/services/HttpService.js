@@ -3,7 +3,7 @@ import axiosInstance from './AxiosInterceptor.js';
 export default class HttpService {
   async getData(url) {
     // tiempo de retraso
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
     return axiosInstance.get(url).then((response) => {
       // console.log('Response getData ------------------------:');
       // console.log(JSON.stringify(response, null, 2));
@@ -42,7 +42,7 @@ export default class HttpService {
 
   async putFormData(url, id, data) {
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
 
     return axiosInstance.patch(`${url}/${id}`, data, {
       headers: { 'Content-Type': 'multipart/form-data' },

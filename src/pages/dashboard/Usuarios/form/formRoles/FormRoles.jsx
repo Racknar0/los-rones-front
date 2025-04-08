@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './FormRoles.scss';
-import { errorAlert, successAlert } from '../../../../helpers/alerts';
-import HttpService from '../../../../services/HttpService';
-import Spinner from '../../../../components/spinner/Spinner';
+import { errorAlert, successAlert } from '../../../../../helpers/alerts';
+import HttpService from '../../../../../services/HttpService';
+import Spinner from '../../../../../components/spinner/Spinner';
 
 const FormRoles = ({
   setEditDataUser,
@@ -51,35 +51,6 @@ const FormRoles = ({
 
 
   }
-
-  /* 
-    const createUser = async (data) => {
-      try {
-        setLoading(true);
-        const response = await httpService.postFormData('/users', data);
-  
-        if (response.status !== 201) {
-          errorAlert('Error', 'No se pudo crear el usuario. Por favor, inténtelo de nuevo.');
-          console.error('Error:', response);
-        } else {
-          console.log('Response:', response);
-          const newUser = response.data;
-          successAlert('Usuario creado', `El usuario ${newUser.user} ha sido creado exitosamente.`);
-          // Reiniciar el formulario
-          setFormData({ username: '', password: '', name: '', lastName: '', email: '', roleId: '', });
-          setProfilePicture(null);
-          // Cambiar de pestaña a usuarios
-          handleTabChange('usuarios');
-        }
-      } catch (error) {
-        const { response } = error;
-        errorAlert('Error', `${response.data.message || 'No se pudo crear el usuario. Por favor, inténtelo de nuevo.'}`);
-        console.error('Error:', error);
-      } finally {
-        setLoading(false);
-      }
-    }; */
-
 
   const postData = async () => {
     try {

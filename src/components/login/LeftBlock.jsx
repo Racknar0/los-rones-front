@@ -12,7 +12,13 @@ const LeftBlock = ({
     loading,
     tiendas,
     setTienda,
+    store,
+    setStore,
 }) => {
+
+
+    const [stores, setStores] = React.useState([]);
+
     return (
         <div className="left_block_login_container">
             <div className="left_block_brand">
