@@ -15,6 +15,7 @@ import logoLogin from '../../assets/logo-login.png';
 import useStore from '../../store/useStore';
 import './Sidebar.scss';
 import HttpService from '../../services/HttpService';
+import { InventarioIcon } from '../icons/InventarioIcon';
 
 const width = '250px';
 const colapsedWidth = '70px';
@@ -38,6 +39,11 @@ const menuConfig = {
         roles: ['1', '2'],
         path: '/dashboard/productos',
         icon: <ProductIcon width={40} height={40} />,
+    },
+    Stock: {
+        roles: ['1', '2', '3'],
+        path: '/dashboard/stock',
+        icon: <InventarioIcon width={40} height={40} />,
     },
     Usuarios: {
         roles: ['2'],

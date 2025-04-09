@@ -15,9 +15,9 @@ const FormProduct = ({
 }) => {
 
     useEffect(() => {
-        setEditDataCategories({ edit: false, categorieToEdit: null, });
-        getCategories()
-    }, [])
+        setEditDataCategories({ edit: false, categorieToEdit: null });
+        getCategories();
+    }, []);
 
     const httpService = new HttpService();
     const [loading, setLoading] = useState(false);
@@ -32,6 +32,7 @@ const FormProduct = ({
         image: null,
     });
 
+    // Ejecutamos este useEffect SOLO cuando se carga un producto a editar (basándonos en su id)
     useEffect(() => {
         if (editDataProduct.edit && editDataProduct.productToEdit) {
             const {
@@ -52,7 +53,8 @@ const FormProduct = ({
                 image: null,
             });
         }
-    }, [editDataProduct]);
+    // Se actualiza solo cuando cambia el id del producto a editar
+    }, [editDataProduct.productToEdit?.id]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -76,6 +78,10 @@ const FormProduct = ({
 
         if (!name || !code || !categoryId || !purchasePrice || !salePrice) {
             return errorAlert('Error', 'Por favor, completa todos los campos.');
+        }
+
+        if (product.purchasePrice >= product.salePrice) {
+            return errorAlert('Error', 'El precio de compra no puede ser mayor o igual que el de venta.');
         }
 
         const formData = new FormData();
@@ -106,24 +112,23 @@ const FormProduct = ({
                 response = await httpService.postFormData('/product', formData);
             }
 
-            if (response.status === 201 || response.status === 200) {
+            if (response.status !== 200 && response.status !== 201){
+                errorAlert('Error', 'Algo salió mal al guardar el producto');
+            } else {
                 successAlert(
                     editDataProduct.edit
                         ? 'Producto actualizado'
                         : 'Producto creado',
-                    `El producto ha sido ${
-                        editDataProduct.edit ? 'actualizado' : 'creado'
-                    } exitosamente.`
+                    `El producto ha sido ${editDataProduct.edit ? 'actualizado' : 'creado'} exitosamente.`
                 );
                 setEditDataProduct({ edit: false, productToEdit: null });
                 handleTabChange('productos');
                 getProducts();
-            } else {
-                errorAlert('Error', 'Algo salió mal al guardar el producto');
             }
         } catch (error) {
-            console.error('Error guardando producto:', error);
-            errorAlert('Error', 'Hubo un problema al guardar el producto');
+            const { response } = error;
+            errorAlert('Error', `${response.data.message || 'No se pudo crear el rol. Por favor, inténtelo de nuevo.'}`);
+            console.error('Error:', error);
         } finally {
             setLoading(false);
         }
@@ -185,7 +190,7 @@ const FormProduct = ({
                         value={product.purchasePrice}
                         onChange={handleChange}
                         required
-                        placeholder='Cunto le costo a la tienda'
+                        placeholder='Cuánto le costó a la tienda'
                     />
                 </div>
 
@@ -198,7 +203,7 @@ const FormProduct = ({
                         value={product.salePrice}
                         onChange={handleChange}
                         required
-                        placeholder='En cuanto se vende al cliente'
+                        placeholder='En cuánto se vende al cliente'
                     />
                 </div>
 
