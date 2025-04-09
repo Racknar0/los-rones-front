@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import './Tableusers.scss';
-import { DeleteIcon } from '../../../../../components/icons/DeleteIcon';
-import { EditIcon } from '../../../../../components/icons/EditIcon';
-import Spinner from '../../../../../components/spinner/Spinner';
-import userDefaultImg from '../../../../../assets/user.png';
+import { DeleteIcon } from '../../icons/DeleteIcon';
+import { EditIcon } from '../../icons/EditIcon';
+import Spinner from '../../spinner/Spinner';
+import userDefaultImg from '../../../assets/user.png';
 import {
     confirmAlert,
     errorAlert,
     successAlert,
-} from '../../../../../helpers/alerts';
-import HttpService from '../../../../../services/HttpService';
+} from '../../../helpers/alerts';
+import HttpService from '../../../services/HttpService';
+import ZoomableImage from '../../ZoomableImage/ZoomableImage';
 
 const TableUsers = ({
     loading,
@@ -123,22 +124,20 @@ const TableUsers = ({
                                 <td>{u.email || 'No disponible'}</td>
                                 <td>{u.name + ' ' + u.lastName || 'No disponible'}</td>
                                 <td>
-                                    <img
-                                        // src={
-                                        //     BACK_HOST +
-                                        //     u.profilePicture ||
-                                        //     'https://placehold.co/30x30'}
+                                    <ZoomableImage
                                         src={
-                                            u.profilePicture
-                                                ? BACK_HOST +
-                                                  '/' +
-                                                  u.profilePicture
-                                                : userDefaultImg
+                                        u.profilePicture
+                                            ? `${BACK_HOST}/${u.profilePicture}`
+                                            : userDefaultImg
                                         }
-                                        alt="profile"
-                                        width="50"
-                                        height="50"
+                                        alt="Producto"
+                                        thumbnailWidth={50}
+                                        thumbnailHeight={50}
                                     />
+                                    </td>
+                                <td>
+                                    {u.updatedAt.split('T')[0] ||
+                                        'No disponible'}
                                 </td>
                                 <td>
                                     {u.lastLogin

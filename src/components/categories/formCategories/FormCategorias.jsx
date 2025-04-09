@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import './FormCategorias.scss';
-import { errorAlert, successAlert } from '../../../../../helpers/alerts';
-import HttpService from '../../../../../services/HttpService';
-import Spinner from '../../../../../components/spinner/Spinner';
+import { errorAlert, successAlert } from '../../../helpers/alerts';
+import HttpService from '../../../services/HttpService';
+import Spinner from '../../spinner/Spinner';
 
 const FormCategorias = ({
   setEditDataCategories,
   editDataCategories,
-  handleTabChange
-  // setEditDataRoles,
+  handleTabChange,
+  setEditDataProduct
 }) => {
 
   const httpService = new HttpService();
   
-  // useEffect(() => {
-  //   setEditDataProducts({
-  //     edit: false,
-  //     productToEdit: null,
-  //   });
-  // }, []);
+  useEffect(() => {
+    setEditDataProduct({ edit: false, productToEdit: null });
+  }, []);
 
   useEffect(() => {
     if (editDataCategories.edit && editDataCategories.categorieToEdit) {
@@ -62,10 +59,7 @@ const FormCategorias = ({
         successAlert('Categría creada', `La categoría ${categoryName} ha sido creado exitosamente.`);
         // Reiniciar el formulario
         setCategoryName('');
-        setEditDataCategories({
-          edit: false,
-          categorieToEdit: null,
-        });
+        setEditDataCategories({ edit: false, categorieToEdit: null, });
 
         // Cambiar a la pestaña de roles
         handleTabChange('categorias');
@@ -117,13 +111,13 @@ console.log(editDataCategories)
         <form>
               <div className="mb-3">
                 <label htmlFor="role_name" className="form-label">
-                  Nombre del Rol
+                  Nombre de Categoría
                 </label>
                 <input
                   type="text"
                   className="form-control"
                   id="role_name"
-                  placeholder="Administrador"
+                  placeholder="Ingresa el nombre de la categoría"
                   value={categoryName}
                   onChange={(e) => setCategoryName(e.target.value)}
                   required

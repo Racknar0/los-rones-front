@@ -44,7 +44,7 @@ export const confirmAlert = async (title = 'Are you sure?', message = 'Are you s
     text: message,
     icon: icon,
     showCancelButton: true,
-    confirmButtonText: 'Yes',
+    confirmButtonText: 'Si',
     cancelButtonText: 'No'
   })
   return result.isConfirmed

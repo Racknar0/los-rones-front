@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import './TableRoles.scss';
-import { DeleteIcon } from '../../../../../components/icons/DeleteIcon';
-import { EditIcon } from '../../../../../components/icons/EditIcon';
-import Spinner from '../../../../../components/spinner/Spinner';
+import { DeleteIcon } from '../../icons/DeleteIcon';
+import { EditIcon } from '../../icons/EditIcon';
+import Spinner from '../../spinner/Spinner';
 import {
     confirmAlert,
     errorAlert,
     successAlert,
-} from '../../../../../helpers/alerts';
-import HttpService from '../../../../../services/HttpService';
+} from '../../../helpers/alerts';
+import HttpService from '../../../services/HttpService';
 
 const TableRoles = ({
     loading,

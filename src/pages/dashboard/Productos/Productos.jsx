@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import HttpService from '../../../services/HttpService';
 import { errorAlert } from '../../../helpers/alerts';
 import './Productos.scss';
-import FormCategorias from './form/formCategories/FormCategorias';
-import TableCategories from './table/tableCategories/TableCategories';
-import TableProduct from './table/tableProduct/TableProduct';
+import FormCategorias from '../../../components/categories/formCategories/FormCategorias';
+import FormProduct from '../../../components/products/formProduct/FormProduct';
+import TableCategories from '../../../components/categories/tableCategories/TableCategories';
+import TableProduct from '../../../components/products/tableProduct/TableProduct';
 
 const Productos = () => {
     const httpService = new HttpService();
@@ -27,7 +28,7 @@ const Productos = () => {
     });
 
     useEffect(() => {
-        // getUsers();
+        getProducts();
         getCategories();
     }, []);
 
@@ -35,22 +36,22 @@ const Productos = () => {
         setActiveTab(tab);
     };
 
-    // const getUsers = async () => {
-    //     try {
-    //         setLoading(true);
-    //         const response = await httpService.getData('/users');
-    //         if (response.status === 200) {
-    //             setUsersData(response.data || []);
-    //         } else {
-    //             errorAlert('Error', 'No se pudo obtener la lista de usuarios');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching users:', error);
-    //         errorAlert('Error', 'No se pudo obtener la lista de usuarios');
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
+    const getProducts = async () => {
+        try {
+            setLoadingProduct(true);
+            const response = await httpService.getData('/product');
+            if (response.status === 200) {
+                setProductData(response.data || []);
+            } else {
+                errorAlert('Error', 'No se pudo obtener la lista de productos');
+            }
+        } catch (error) {
+            console.error('Error fetching users:', error);
+            errorAlert('Error', 'No se pudo obtener la lista de productos');
+        } finally {
+            setLoadingProduct(false);
+        }
+    };
 
     const getCategories = async () => {
         try {
@@ -68,8 +69,6 @@ const Productos = () => {
             setLoadingCategories(false);
         }
     }
-
-   console.log("editDataCategories MAIN" , editDataCategories)
 
     return (
         <div className="main_container">
@@ -139,28 +138,31 @@ const Productos = () => {
                     <div className="tab-pane fade show active">
                         <h1 className="text-center mt-4 pt-4">Productos</h1>
                         <h4 className="text-center mb-4">Lista de Productos</h4>
-                        {/* <TableUsers
-                            usersData={usersData}
-                            getUsers={getUsers}
-                            loading={loading}
-                            setLoading={setLoading}
+                        <TableProduct 
+                            productData={productData}
+                            getProducts={getProducts}
+                            loadingProduct={loadingProduct}
+                            setLoadingProduct={setLoadingProduct}
                             handleTabChange={handleTabChange}
-                            setEditData={setEditData}
-                            setEditDataRoles={setEditDataRoles}
-                        /> */}
-                        <TableProduct />
+                            setEditDataProduct={setEditDataProduct}
+                            setEditDataCategories={setEditDataCategories}
+                        />
 
                     </div>
                 )}
                 {activeTab === 'crear_producto' && (
                     <div className="tab-pane fade show active">
-                        {/* <FormUsers 
-                            handleTabChange={handleTabChange} 
-                            editData={editData}
-                            setEditData={setEditData}
+                        <FormProduct 
+                            getProducts={getProducts}
+                            loadingProduct={loadingProduct}
+                            setLoadingProduct={setLoadingProduct}
+                            handleTabChange={handleTabChange}
+                            setEditDataProduct={setEditDataProduct}
+                            getCategories={getCategories}
+                            categoriesData={categoriesData}
+                            editDataProduct={editDataProduct}
                             setEditDataCategories={setEditDataCategories}
-                        /> */}
-                        crear producto
+                        />
                     </div>
                 )}
                 {activeTab === 'categorias' && (
@@ -174,6 +176,7 @@ const Productos = () => {
                             getCategories={getCategories}
                             handleTabChange={handleTabChange}
                             setEditDataCategories={setEditDataCategories}
+                            setEditDataProduct={setEditDataProduct}
                         />
                     </div>
                 )}
@@ -183,6 +186,7 @@ const Productos = () => {
                             setEditDataCategories={setEditDataCategories}
                             editDataCategories={editDataCategories}
                             handleTabChange={handleTabChange}
+                            setEditDataProduct={setEditDataProduct}
                         />
                     </div>
                 )}

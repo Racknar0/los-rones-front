@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import TableUsers from './table/tableUsers/TableUsers';
 
-import FormUsers from './form/formUsers/FormUsers';
-import FormRoles from './form/formRoles/FormRoles';
+import FormUsers from '../../../components/users/formUsers/FormUsers';
+import FormRoles from '../../../components/roles/formRoles/FormRoles';
+import TableUsers from '../../../components/users/tableUsers/TableUsers';
+import TableRoles from '../../../components/roles/tableRoles/TableRoles';
 import HttpService from '../../../services/HttpService';
 import { errorAlert } from '../../../helpers/alerts';
 import './Usuarios.scss';
-import TableRoles from './table/tableRoles/TableRoles';
 
 const Usuarios = () => {
     const httpService = new HttpService();

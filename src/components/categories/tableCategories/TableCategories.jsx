@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import './TableCategories.scss';
-import { DeleteIcon } from '../../../../../components/icons/DeleteIcon';
-import { EditIcon } from '../../../../../components/icons/EditIcon';
-import Spinner from '../../../../../components/spinner/Spinner';
+import { DeleteIcon } from '../../icons/DeleteIcon';
+import { EditIcon } from '../../icons/EditIcon';
+import Spinner from '../../spinner/Spinner';
 import {
     confirmAlert,
     errorAlert,
     successAlert,
-} from '../../../../../helpers/alerts';
-import HttpService from '../../../../../services/HttpService';
+} from '../../../helpers/alerts';
+import HttpService from '../../../services/HttpService';
 
 const TableCategories = ({
     loadingCategories,
@@ -16,20 +16,19 @@ const TableCategories = ({
     categoriesData = [],
     getCategories,
     handleTabChange,
-    setEditDataCategories
+    setEditDataCategories,
+    setEditDataProduct
 }) => {
     const httpService = new HttpService();
 
     useEffect(() => {
         getCategories();
-        setEditDataCategories({
-            edit: false,
-            categorieToEdit: null,
-        });
+        setEditDataCategories({ edit: false, categorieToEdit: null, });
+        setEditDataProduct({ edit: false, productToEdit: null });
     }, []);
 
 
-    const handleDeleteCategorie = async (roleId) => {
+    const handleDeleteCategorie = async (id) => {
 
         const confirmDelete = await confirmAlert(
             '¿Está seguro que desea eliminar esta categoría?',
@@ -41,7 +40,7 @@ const TableCategories = ({
 
         try {
             setLoadingCategories(true);
-            const response = await httpService.deleteData('/category', roleId);
+            const response = await httpService.deleteData('/category', id);
             if (response.status === 200) {
                 successAlert(
                     'Categoria eliminada',

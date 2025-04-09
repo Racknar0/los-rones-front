@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './FormRoles.scss';
-import { errorAlert, successAlert } from '../../../../../helpers/alerts';
-import HttpService from '../../../../../services/HttpService';
-import Spinner from '../../../../../components/spinner/Spinner';
+import { errorAlert, successAlert } from '../../../helpers/alerts';
+import HttpService from '../../../services/HttpService';
+import Spinner from '../../spinner/Spinner';
 
 const FormRoles = ({
   setEditDataUser,

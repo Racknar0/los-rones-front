@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import HttpService from '../../../../../services/HttpService';
-import { errorAlert, successAlert } from '../../../../../helpers/alerts';
+import HttpService from '../../../services/HttpService';
+import { errorAlert, successAlert } from '../../../helpers/alerts';
 
 import './FormUser.scss';
-import Spinner from '../../../../../components/spinner/Spinner';
+import Spinner from '../../spinner/Spinner';
 
 const FormUsers = ({
     handleTabChange,
