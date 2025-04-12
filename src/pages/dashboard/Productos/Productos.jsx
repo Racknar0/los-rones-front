@@ -6,10 +6,12 @@ import FormCategorias from '../../../components/categories/formCategories/FormCa
 import FormProduct from '../../../components/products/formProduct/FormProduct';
 import TableCategories from '../../../components/categories/tableCategories/TableCategories';
 import TableProduct from '../../../components/products/tableProduct/TableProduct';
+import useStore from '../../../store/useStore';
 
 const Productos = () => {
     const httpService = new HttpService();
     const [activeTab, setActiveTab] = useState('productos');
+    const selectedStore = useStore((state) => state.selectedStore);
 
     // Users data
     const [productData, setProductData] = useState([]);
@@ -39,14 +41,14 @@ const Productos = () => {
     const getProducts = async () => {
         try {
             setLoadingProduct(true);
-            const response = await httpService.getData('/product');
+            const response = await httpService.getData(`/product?storeId=${selectedStore}`);
             if (response.status === 200) {
                 setProductData(response.data || []);
             } else {
                 errorAlert('Error', 'No se pudo obtener la lista de productos');
             }
         } catch (error) {
-            console.error('Error fetching users:', error);
+            console.error('Error fetching products:', error);
             errorAlert('Error', 'No se pudo obtener la lista de productos');
         } finally {
             setLoadingProduct(false);

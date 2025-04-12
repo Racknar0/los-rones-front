@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { errorAlert, successAlert } from '../../../helpers/alerts';
+import { confirmAlert, errorAlert, successAlert } from '../../../helpers/alerts';
 import HttpService from '../../../services/HttpService';
 import Spinner from '../../spinner/Spinner';
 import './FormProduct.scss'
@@ -98,6 +98,14 @@ const FormProduct = ({
         formData.append('purchasePrice', product.purchasePrice);
         formData.append('salePrice', product.salePrice);
         formData.append('perishable', product.perishable);
+
+        const confirm = await confirmAlert(
+            'Confirmar acción',
+            `¿Está seguro de que desea ${editDataProduct.edit ? 'actualizar' : 'crear'} el producto ${product.name}?`,
+            'warning'
+        );
+
+        if (!confirm) return;
 
         setLoading(true);
         try {

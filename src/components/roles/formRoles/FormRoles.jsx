@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './FormRoles.scss';
-import { errorAlert, successAlert } from '../../../helpers/alerts';
+import { confirmAlert, errorAlert, successAlert } from '../../../helpers/alerts';
 import HttpService from '../../../services/HttpService';
 import Spinner from '../../spinner/Spinner';
 
@@ -39,6 +39,13 @@ const FormRoles = ({
       errorAlert('Error', 'El nombre del rol es obligatorio');
       return;
     }
+    
+    const confirm = await confirmAlert(
+                'Confirmar acción',
+                `¿Está seguro de que desea ${editDataRoles.edit ? 'actualizar' : 'crear'} el rol ${roleName}?`,
+                'warning'
+            );
+    if (!confirm) return;
 
     if (editDataRoles.edit) {
       // Si estamos editando un rol existente, llamamos a la función de actualización

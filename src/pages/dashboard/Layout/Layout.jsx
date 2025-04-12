@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router'; 
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import './Layout.scss'; 
@@ -13,6 +13,11 @@ const Layout = () => {
   const [broken, setBroken] = useState( window.matchMedia('(max-width: 768px)').matches ); // Estado para manejar el colapso del sidenav en pantallas pequeñas
   const jwtData = useStore((state) => state.jwtData);
   const logout = useStore((state) => state.logout);
+
+  const fullState = useStore((state) => state);
+  useEffect(() => {
+    console.log('Estado completo del store:', fullState);
+  }, [fullState]);
 
 
     const handleLogout = async () => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './FormCategorias.scss';
-import { errorAlert, successAlert } from '../../../helpers/alerts';
+import { confirmAlert, errorAlert, successAlert } from '../../../helpers/alerts';
 import HttpService from '../../../services/HttpService';
 import Spinner from '../../spinner/Spinner';
 
@@ -36,6 +36,13 @@ const FormCategorias = ({
       errorAlert('Error', 'El nombre del rol es obligatorio');
       return;
     }
+
+    const confirm = await confirmAlert(
+                'Confirmar acción',
+                `¿Está seguro de que desea ${editDataCategories.edit ? 'actualizar' : 'crear'} la categoría ${categoryName}?`,
+                'warning'
+            );
+            if (!confirm) return;
 
     if (editDataCategories.edit) {
       // Si estamos editando un existente, llamamos a la función de actualización

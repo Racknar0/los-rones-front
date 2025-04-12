@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import HttpService from '../../../services/HttpService';
-import { errorAlert, successAlert } from '../../../helpers/alerts';
+import { confirmAlert, errorAlert, successAlert } from '../../../helpers/alerts';
 
 import './FormUser.scss';
 import Spinner from '../../spinner/Spinner';
@@ -163,6 +163,13 @@ const FormUsers = ({
             setLoading(false);
             return;
         }
+
+            const confirm = await confirmAlert(
+                        'Confirmar acción',
+                        `¿Está seguro de que desea ${editData.edit ? 'actualizar' : 'crear'} el usuario ${formData.username}?`,
+                        'warning'
+                    );
+            if (!confirm) return;
 
         if (editData.edit && editData.userToEdit) {
             // Si estamos editando un usuario, llamamos a la función de actualización

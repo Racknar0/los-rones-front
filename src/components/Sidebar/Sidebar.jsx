@@ -112,10 +112,12 @@ const Sidebar = ({ toggled, setToggled, setBroken }) => {
             getTiendas();
 
             // setear la tienda con la que se inicia sesión
-            if (!selectedStore && jwtData.storeLogin) {
-              setSelectedStore(jwtData.storeLogin);
-            }
+            
         }
+
+        if (!selectedStore && jwtData.storeLogin) {
+            setSelectedStore(jwtData.storeLogin);
+          }
     }, []);
 
     return (
