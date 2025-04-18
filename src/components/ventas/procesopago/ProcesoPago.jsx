@@ -8,6 +8,8 @@ import SelectMetodoPago from '../selectMetodoPago/SelectMetodoPago';
 import Cambio from '../cambio/Cambio';
 import './ProcesoPago.scss';
 import HttpService from '../../../services/HttpService';
+import Spinner from '../../spinner/Spinner';
+import CashIcon from '../../icons/CashIcon';
 
 const ProcesoPago = () => {
     const totalCompra = useStore((s) => s.totalCompra);
@@ -28,6 +30,7 @@ const ProcesoPago = () => {
 
     const [efectivo, setEfectivo] = useState('');
     const [cupon, setCupon] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const httpService = new HttpService();
 
@@ -97,6 +100,7 @@ const ProcesoPago = () => {
         }
 
         try {
+            setLoading(true);
             const res = await httpService.postData('/sale', dataToSend);
             if (res.status === 201) {
                 // Aquí puedes agregar la lógica para manejar la respuesta exitosa
@@ -108,7 +112,7 @@ const ProcesoPago = () => {
         } catch (error) {
             errorAlert('Error', 'Ocurrió un error al finalizar la venta');
         } finally {
-            console.log('Finalización de venta completada');
+            setLoading(false);
         }
 
     }
@@ -144,10 +148,21 @@ const ProcesoPago = () => {
                 cambio={cambio}
                 validarEfectivo={validarEfectivo}
             />
-
-            <button className="d-flex btn_finalizar_venta mt-4 mx-auto" onClick={hadleFinalizarVenta}>
-                <p>Finalizar venta</p>
-            </button>
+          
+                
+            <div className='finish_sale_container'>
+                {
+                    loading ? (
+                        <Spinner loading={loading} color="#6564d8" styles={{ marginTop: '40px' }} />
+                    ) : (
+                        <button className="d-flex btn_finalizar_venta mt-4 mx-auto" onClick={hadleFinalizarVenta}>
+                            <CashIcon className="icono_cupon" />
+                            <p>Finalizar venta</p>
+                        </button>
+                    )
+                }
+            </div>
+            
         </div>
     );
 };
