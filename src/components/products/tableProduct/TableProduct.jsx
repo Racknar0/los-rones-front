@@ -11,6 +11,7 @@ import {
 import HttpService from '../../../services/HttpService';
 import productDefaultImg from '../../../assets/product_default.png';
 import ZoomableImage from '../../ZoomableImage/ZoomableImage';
+import useStore from '../../../store/useStore';
 
 const TableProduct = ({
     productData,
@@ -23,9 +24,10 @@ const TableProduct = ({
 }) => {
     const httpService = new HttpService();
 
-    console.log(productData);
-
     const BACK_HOST = import.meta.env.VITE_BACK_HOST;
+    const { role } = useStore((state) => state.jwtData);
+
+    console.log('PRODUCTOS', productData);
 
     useEffect(() => {
         getProducts();
@@ -67,15 +69,24 @@ const TableProduct = ({
             <table className="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Acciones</th>
+                        {
+                            ['Admin', 'Moderador'].includes(role) && (
+                                <th>Acciones</th>
+                            )
+                        }
                         <th>Categoría</th>
                         <th>Nombre</th>
                         <th>Código</th>
-                        <th>Precio de compra</th>
-                        <th>Precio de venta</th>
+                        {
+                            ['Admin', 'Moderador'].includes(role) && (
+                                <th>$ Compra</th>
+                            )
+                        }
+                        <th>$ Venta</th>
                         <th>Perecedero</th>
+                        <th>I. Impuesto</th>
                         <th>Imagen</th>
-                        <th>Última modificación</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -84,42 +95,53 @@ const TableProduct = ({
                         productData.length > 0 &&
                         productData.map((u, index) => (
                             <tr key={index}>
-                                <td>
-                                    <button
-                                        className="btn btn-sm btn-primary me-2"
-                                        onClick={() => {
-                                            handleTabChange('crear_producto');
-                                            setEditDataProduct({
-                                                edit: true,
-                                                productToEdit: u,
-                                            });
-                                        }}
-                                    >
-                                        <EditIcon
-                                            width={20}
-                                            height={20}
-                                            fill="#fff"
-                                        />
-                                    </button>
-                                    <button
-                                        className="btn btn-sm btn-danger"
-                                        onClick={() =>
-                                            handleDeleteProduct(u.id)
-                                        }
-                                    >
-                                        <DeleteIcon
-                                            width={20}
-                                            height={20}
-                                            fill="#fff"
-                                        />
-                                    </button>
-                                </td>
+                                                                {
+                                    ['Admin', 'Moderador'].includes(role) && (
+                                        <td>
+                                            <button
+                                                className="btn btn-sm btn-primary me-2"
+                                                onClick={() => {
+                                                    handleTabChange('crear_producto');
+                                                    setEditDataProduct({
+                                                        edit: true,
+                                                        productToEdit: u,
+                                                    });
+                                                }}
+                                            >
+                                                <EditIcon
+                                                    width={20}
+                                                    height={20}
+                                                    fill="#fff"
+                                                />
+                                            </button>
+                                            <button
+                                                className="btn btn-sm btn-danger"
+                                                onClick={() =>
+                                                    handleDeleteProduct(u.id)
+                                                }
+                                            >
+                                                <DeleteIcon
+                                                    width={20}
+                                                    height={20}
+                                                    fill="#fff"
+                                                />
+                                            </button>
+                                        </td>
+                                    )
+                                }
                                 <td>{u.category?.name || 'No disponible'}</td>
                                 <td>{u.name || 'No disponible'}</td>
                                 <td>{u.code || 'No disponible'}</td>
-                                <td>{u.purchasePrice || 'No disponible'}</td>
+                                {
+                                    ['Admin', 'Moderador'].includes(role) && (
+                                        <td>{u.purchasePrice || 'No disponible'}</td>
+                                    )
+                                }
                                 <td>{u.salePrice || 'No disponible'}</td>
                                 <td>{u.perishable === true ? 'Si' : 'No'}</td>
+                                <td>
+                                    {u.hasTax === true ? 'Si' : 'No'}
+                                </td>
                                 <td>
                                     <ZoomableImage
                                         src={
@@ -132,10 +154,7 @@ const TableProduct = ({
                                         thumbnailHeight={50}
                                     />
                                     </td>
-                                <td>
-                                    {u.updatedAt.split('T')[0] ||
-                                        'No disponible'}
-                                </td>
+                                
                             </tr>
                         ))}
                 </tbody>

@@ -30,7 +30,7 @@ const menuConfig = {
         icon: <ChartIcon width={40} height={40} />,
     },
     Ventas: {
-        roles: ['1'],
+        roles: ['1', '2'],
         path: '/dashboard/ventas',
         icon: <SellIcon width={40} height={40} />,
     },
@@ -127,7 +127,7 @@ const Sidebar = ({ toggled, setToggled, setBroken }) => {
             collapsed={collapsed}
             backgroundColor={backgroundColor}
             toggled={toggled}
-            customBreakPoint="800px"
+            customBreakPoint="992px"
             onBreakPoint={setBroken}
             onBackdropClick={() => setToggled(false)}
             transitionDuration={transitionDuration}

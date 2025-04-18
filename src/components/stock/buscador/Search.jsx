@@ -1,18 +1,25 @@
 import React from 'react'
 import Spinner from '../../spinner/Spinner'
-import './Buscador.scss'
+import './Search.scss'
+import useStore from '../../../store/useStore';
 
-const Buscador = ({
+const Search = ({
   searchTerm,
   setSearchTerm,
   loadingProducts,
   filteredProducts,
   selectedProduct,
   handleSelectProduct,
+  openStockModal,
+  loadingButtonStock
 }) => {
 
 
-  const getStockClass = (quantity) => {
+  const { role } = useStore((state) => state.jwtData);
+
+  const getStockClass = (stock) => {
+    if (!stock?.stockunit || !stock?.stockunit.length) return 'low'; // Si no hay stock
+    const quantity = stock?.stockunit?.length; // Cantidad de unidades de stock
     if (quantity >= 10) return 'high';
     if (quantity >= 5) return 'medium';
     return 'low';
@@ -20,8 +27,24 @@ const Buscador = ({
 
   return (
       <div className="col-md-4 border-end buscador_container">
+          {
+              ['Admin'].includes(role) && (
+                  <>
+                  {
+                    loadingButtonStock ? (
+                      <div className='spinner_container_btn'> <Spinner color="#6564d8" /> </div>
+                    ) : (
+                      <button className="btn_modificar_stock" onClick={() => {openStockModal()}}>
+                        🛠️ Modificar Stock
+                      </button>
+                    )
+                  }
+                </>
+              )
+          }
+          
           <h5>📦 Listado de productos</h5>
-          <input className="form-control mb-2 form_buscador" placeholder="Buscar..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+          <input className="form-control mb-2 form_buscador" placeholder="🔎 Buscar..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           <ul className="list-group">
             {loadingProducts ? (
               <div className='spinner_container'> <Spinner color="#6564d8" /> </div>
@@ -41,7 +64,8 @@ const Buscador = ({
                     <p>{prod.category.name.charAt(0).toUpperCase() + prod.category.name.slice(1)}</p>
                   </div>
                   <div className='right'>
-                    <div className={`color_stock ${getStockClass(prod.stockUnits.length)}`}>
+                    <div className={`color_stock ${getStockClass(prod)}`}>
+                    {/* <div className={`color_stock ${getStockClass(prod?.stockunit?.length)}`}> */}
                     </div>
                   </div>
                 </li>
@@ -55,4 +79,4 @@ const Buscador = ({
   )
 }
 
-export default Buscador
+export default Search

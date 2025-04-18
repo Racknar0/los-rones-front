@@ -11,13 +11,14 @@ const DetalleProducto = ({
   handleCreateStock,
   handleQuantityChange,
   handleDateChange,
-  // mockStores, //* Si se necesita el mock de tiendas, descomentar esta línea y la de abajo
 }) => {
 
   const jwtData = useStore((state) => state.jwtData);
   const today = new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
   const selectedStore = useStore((state) => state.selectedStore);
 
+
+  console.log('selectedProduct', selectedProduct);
 
   // Función que retorna la clase de stock según la cantidad
   const getStockClass = (quantity) => {
@@ -66,8 +67,9 @@ const DetalleProducto = ({
             <p className="chip w-50">
               <strong>Código:</strong> {selectedProduct.code}
             </p>
-            <p className={`chip w-50 stock ${getStockClass(selectedProduct.stockUnits.length)}`}>
-              <strong>STOCK:</strong> {selectedProduct.stockUnits.length} unidades
+            <p className={`chip w-50 stock ${ getStockClass(selectedProduct?.stockunit?.length)}`}>
+                                          
+              <strong>STOCK:</strong> {selectedProduct.stockunit.length} unidades
             </p>
           </div>
           <p className="chip">
@@ -108,24 +110,6 @@ const DetalleProducto = ({
 
           {/* Formulario para agregar stock */}
           <h5 className="mt-4 text-center pt-4">➕ Agregar al Stock</h5>
-
-          {/* Selector de tienda */}
-          {/* {jwtData?.roleId === 2 && (
-            <div className="mb-3">
-              <label className="form-label fw-bold">Seleccione Tienda</label>
-              <select
-                className="form-select fs-4"
-                value={storeId}
-                onChange={(e) => setStoreId(e.target.value)}
-              >
-                {mockStores.map((store) => (
-                  <option key={store.id} value={store.id}>
-                    {store.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )} */}
 
           {/* Cantidad a agregar */}
           <div className="mb-3">

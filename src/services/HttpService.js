@@ -41,9 +41,7 @@ export default class HttpService {
   }
 
   async putFormData(url, id, data) {
-
     // await new Promise((resolve) => setTimeout(resolve, 2000));
-
     return axiosInstance.patch(`${url}/${id}`, data, {
       headers: { 'Content-Type': 'multipart/form-data' },
     }).then((response) => {
@@ -56,6 +54,14 @@ export default class HttpService {
   async deleteData(url, id) {
     return axiosInstance.delete(`${url}/${id}`).then((response) => {
       // console.log('Response deleteData ------------------------:');
+      // console.log(JSON.stringify(response, null, 2));
+      return response;
+    });
+  }
+
+  async deleteDataWithBody(url, data) {
+    return axiosInstance.delete(url, { data }).then((response) => {
+      // console.log('Response deleteDataWithBody ------------------------:');
       // console.log(JSON.stringify(response, null, 2));
       return response;
     });

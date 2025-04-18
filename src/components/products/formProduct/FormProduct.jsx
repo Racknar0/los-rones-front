@@ -30,7 +30,9 @@ const FormProduct = ({
         salePrice: '',
         perishable: false,
         image: null,
+        hasTax: false
     });
+
 
     // Ejecutamos este useEffect SOLO cuando se carga un producto a editar (basándonos en su id)
     useEffect(() => {
@@ -43,6 +45,7 @@ const FormProduct = ({
                 salePrice,
                 perishable,
             } = editDataProduct.productToEdit;
+
             setProduct({
                 name,
                 code,
@@ -51,6 +54,7 @@ const FormProduct = ({
                 salePrice,
                 perishable,
                 image: null,
+                hasTax: editDataProduct.productToEdit.hasTax
             });
         }
     // Se actualiza solo cuando cambia el id del producto a editar
@@ -98,6 +102,7 @@ const FormProduct = ({
         formData.append('purchasePrice', product.purchasePrice);
         formData.append('salePrice', product.salePrice);
         formData.append('perishable', product.perishable);
+        formData.append('hasTax', product.hasTax);
 
         const confirm = await confirmAlert(
             'Confirmar acción',
@@ -213,6 +218,17 @@ const FormProduct = ({
                         required
                         placeholder='En cuánto se vende al cliente'
                     />
+                </div>
+
+                <div className="mb-3 form-check">
+                    <input
+                        className="form-check-input"
+                        type="checkbox"
+                        name="hasTax"
+                        checked={product.hasTax}
+                        onChange={handleChange}
+                    />
+                    <label className="form-check-label">¿Incluye Impuesto?</label>
                 </div>
 
                 <div className="mb-3 form-check">

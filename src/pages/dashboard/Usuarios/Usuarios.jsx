@@ -88,7 +88,7 @@ const Usuarios = () => {
                             setActiveTab('usuarios');
                         }}
                     >
-                        Usuarios & Roles
+                        👤🔐 Usuarios & Roles
                     </a>
                 </li>
                 <li className="nav-item">
@@ -102,7 +102,7 @@ const Usuarios = () => {
                             setActiveTab('crear');
                         }}
                     >
-                        {editData.edit ? 'Editar Usuario' : 'Crear Usuario'}
+                        {editData.edit ? '👥📝 Editar Usuario' : '👤➕ Crear Usuario'}
                     </a>
                 </li>
                 <li className="nav-item">
@@ -116,7 +116,7 @@ const Usuarios = () => {
                             setActiveTab('crear_rol');
                         }}
                     >
-                        {editDataRoles.edit ? 'Editar Rol' : 'Crear Rol'}
+                        {editDataRoles.edit ? '👥📝 Editar Rol' : '🔐➕ Crear Rol'}
                     </a>
                 </li>
             </ul>

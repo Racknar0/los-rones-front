@@ -20,6 +20,7 @@ const Productos = () => {
         edit: false,
         productToEdit: null,
     });
+    const { role } = useStore((state) => state.jwtData);
 
     // Categories data
     const [categoriesData, setCategoriesData] = useState([]);
@@ -87,23 +88,29 @@ const Productos = () => {
                             setActiveTab('productos');
                         }}
                     >
-                        Productos
+                        📦 Productos
                     </a>
                 </li>
-                <li className="nav-item">
-                    <a
-                        className={`nav-link ${
-                            activeTab === 'crear_producto' ? 'active' : ''
-                        }`}
-                        href="#"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            setActiveTab('crear_producto');
-                        }}
-                    >
-                        {editDataProduct.edit ? 'Editar Producto' : 'Crear Producto'}
-                    </a>
-                </li>
+
+                {
+                    ['Admin', 'Moderador'].includes(role) && (
+                        <li className="nav-item">
+                            <a
+                                className={`nav-link ${
+                                    activeTab === 'crear_producto' ? 'active' : ''
+                                }`}
+                                href="#"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setActiveTab('crear_producto');
+                                }}
+                            >
+                                {editDataProduct.edit ? '✏️📦 Editar Producto' : '➕📦 Crear Producto'}
+                            </a>
+                        </li>
+                    )
+                }
+                
                 <li className="nav-item">
                     <a
                         className={`nav-link ${
@@ -115,23 +122,29 @@ const Productos = () => {
                             setActiveTab('categorias');
                         }}
                     >
-                        Categorias
+                        🏷️ Categorias
                     </a>
                 </li>
-                <li className="nav-item">
-                    <a
-                        className={`nav-link ${
-                            activeTab === 'crear_categoria' ? 'active' : ''
-                        }`}
-                        href="#"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            setActiveTab('crear_categoria');
-                        }}
-                    >
-                        {editDataCategories.edit ? 'Editar Categoria' : 'Crear Categoria'}
-                    </a>
-                </li>
+
+                {
+                    ['Admin', 'Moderador'].includes(role) && (
+                        <li className="nav-item">
+                            <a
+                                className={`nav-link ${
+                                    activeTab === 'crear_categoria' ? 'active' : ''
+                                }`}
+                                href="#"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setActiveTab('crear_categoria');
+                                }}
+                            >
+                                {editDataCategories.edit ? 'Editar Categoria' : '➕🏷️ Crear Categoria'}
+                            </a>
+                        </li>
+                    )
+                }
+                
             </ul>
 
             {/* Contenido de cada tab */}

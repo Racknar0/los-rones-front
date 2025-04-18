@@ -3,6 +3,13 @@
     padding: 15px;
     background-color: #f8f9fa;
     border-radius: 5px;
+    min-height: 100vh;
+
+    .spinner_container_btn{
+        height: 50px;
+        display: flex;
+        justify-content: center;
+    }
 
     h5 {
         font-size: 1.8rem;
@@ -20,16 +27,21 @@
         overflow-y: auto;
 
         max-height: 700px;
+
+        .spinner_container{
+            min-height: 100px;
+        }
         
         .list-group-item{
             font-size: 1.6rem;
-            cursor: pointer;
             transition: background-color 0.3s ease;
             padding: 0;
             padding-left: .5rem;
             padding-top: .5rem;
             padding-bottom: .5rem;
             display: flex;
+            cursor: default !important;
+            position: relative;
 
             &:hover{
                 background-color: #e2e6ea;
@@ -48,6 +60,19 @@
 
             .left{
                 width: 90%;
+
+                .name_text{
+                    margin-bottom: 4px;
+                    .chip{
+                        font-size: 1.2rem;
+                        margin-left: 5px;
+                        padding: 0 5px;
+                        border-radius: 5px;
+                        background-color: #caac00;
+                        color: #000000;
+                        font-weight: normal !important;
+                    }
+                }
             }
             
             .right {
@@ -71,6 +96,37 @@
                     &.low{
                         background-color: #dc3545;
                         color: white;
+                    }
+                }
+            }
+
+
+            .btn_add_container{
+                position: absolute;
+                bottom: 20px;
+                right: 10px;
+
+                @media (min-width: 400px) {
+                    right: 40px;
+                }
+
+                @media (min-width: 400px) {
+                    right: 5px;
+                    bottom: 10px;
+                }
+
+                .btn_add {
+                    background-color: #f0f0f0;
+                    color: white;
+                    border: none;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    font-size: 1.3rem;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+
+                    &:hover{
+                        background-color: #4b52b2be;
                     }
                 }
             }

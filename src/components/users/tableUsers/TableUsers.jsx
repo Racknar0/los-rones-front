@@ -116,7 +116,8 @@ const TableUsers = ({
                                 {/* <td>{u.store?.name ? u.store.name : (u.roleId === 2 ? "ADM" : "No disponible")}</td> */}
                                 <td style={{
                                     fontWeight: 'bold',
-                                }}>{ u.roleId === 2 ? "ALL" :  (u.store?.name || 'No disponible') }</td>
+                                    color: u.roleId === 2 ? '#f01616' : '#000',
+                                }}>{ u.roleId === 2 ? "Admin" :  (u.store?.name || 'No disponible') }</td>
                                 <td>{u.user || 'No disponible'}</td>
                                 <td>
                                     {u.role?.name || 'No disponible'}

@@ -16,6 +16,11 @@ const useStore = create(
     token: initialToken,
     jwtData: initialJwtData,
     selectedStore: initialSelectedStore,
+
+    totalCompra: 100,
+    dineroRecibido: 0,
+    cambio: 0,
+    tipoPago: '',
     
     // Funciones
     setLoading: (value) => set({ loading: value }),
@@ -50,6 +55,23 @@ const useStore = create(
       localStorage.setItem('selectedStore', store);
       set({ selectedStore: store });
     },
+
+    setTotalCompra: (total) => {
+      set({ totalCompra: total });
+    },
+
+    setDineroRecibido: (dinero) => {
+      set({ dineroRecibido: dinero });
+    },
+
+    setCambio: (cambio) => {
+      set({ cambio: cambio });
+    },
+
+    setTipoPago: (tipo) => {
+      set({ tipoPago: tipo });
+    },
+
   }))
 );
 

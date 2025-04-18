@@ -1,0 +1,21 @@
+.main_container{
+
+    .modal {
+        display: flex !important;
+        align-items: center !important;
+
+        .modal-dialog{
+            z-index: 10 !important;
+        }
+        
+        .modal-backdrop{
+            z-index: 9 !important;
+        }
+        .modal-content{
+            z-index: 10s !important;
+        }
+
+        
+    }
+    
+}
