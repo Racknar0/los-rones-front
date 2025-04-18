@@ -14,8 +14,15 @@ const Ventas = () => {
   const httpService = new HttpService();
   const selectedStore = useStore((s) => s.selectedStore);
 
+  const totalCompra = useStore((state) => state.totalCompra);
+  const setTotalCompra = useStore((state) => state.setTotalCompra);
 
-  // — estados —
+  const totalCompraSinCupon = useStore((state) => state.totalCompraSinCupon);
+  const setTotalCompraSinCupon = useStore((state) => state.setTotalCompraSinCupon);
+
+  const selectedCoupon = useStore((state) => state.selectedCoupon);
+
+
   const [productData, setProductData] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,19 +35,31 @@ const Ventas = () => {
  // Para darle estilo al ultimo producto agregado al carrito
   const [lastAddedIndex, setLastAddedIndex] = useState(null);
 
-  const totalCompra = useStore((state) => state.totalCompra);
-  const setTotalCompra = useStore((state) => state.setTotalCompra);
+
 
 
   useEffect(() => {
      console.log('cartItems useEffect', cartItems);
      
     // Calcular el total de la compra sumando los precios de los productos en el carrito se debe parsear a numero
-    const total = cartItems.reduce((acc, item) => {
-      const price = parseFloat(item.product.salePrice) || 0; // Asegurarse de que el precio sea un número
-      return acc + price;
-    }, 0);
-    setTotalCompra(total);
+    // const total = cartItems.reduce((acc, item) => {
+    //   const price = parseFloat(item.product.salePrice) || 0; // Asegurarse de que el precio sea un número
+    //   return acc + price;
+    // }, 0);
+    // setTotalCompra(total);
+
+    // 1) subtotal sin descuentos
+    const base = cartItems.reduce(
+      (acc, item) => acc + (parseFloat(item.product.salePrice) || 0),
+      0
+    );
+    setTotalCompraSinCupon(base);
+
+
+    // 2) aplica descuento (si hay cupón)
+    // const discount = selectedCoupon?.discount ?? 10; // porcentaje
+    // const totalConDescuento = base * (1 - discount / 100);
+    // setTotalCompra(parseFloat(totalConDescuento.toFixed(2)));
 
   }, [cartItems]);
 

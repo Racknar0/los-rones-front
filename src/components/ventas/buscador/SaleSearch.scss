@@ -11,6 +11,24 @@
         justify-content: center;
     }
 
+    .btn_open_coupons{
+        background-color: #6564d8;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 1.3rem;
+        width: 100%;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover{
+            background-color: #4b52b2be;
+        }
+    }
+
+
     h5 {
         font-size: 1.8rem;
         margin-bottom: 10px;
@@ -133,3 +151,76 @@
         }
     }
 }
+
+
+/* ────── Modal – Cupones ────── */
+
+   
+
+  
+  .cupones_container {
+    display: grid;
+    gap: 1.5rem;
+    max-height: 55vh;
+    overflow-y: auto;
+    padding: 18px;
+  
+    /* mini scroll discreto */
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #b9b9ff;
+      border-radius: 4px;
+    }
+  }
+  
+  .cupon {
+    position: relative;
+    background: #fff;
+    border-left: 6px solid #6564d8;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+    transition: transform 0.15s;
+  
+    &:hover {
+      transform: translateY(-2px);
+    }
+  
+    /* etiqueta de descuento “‑10 %” en la esquina */
+    &::after {
+      content: attr(data-discount) '%';
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #caac00;
+      color: #000;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 3px 6px;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
+  
+    p {
+      margin: 0 0 4px;
+      font-size: 1.4rem;
+  
+      &:last-child {
+        margin-bottom: 0;
+      }
+  
+      &.text {
+        font-weight: 500;
+        word-break: break-word;
+      }
+    }
+  }
+  
+  /* Si quieres un footer limpio sin borde ni fondo */
+  .modal-footer {
+    border-top: none;
+    background: transparent;
+    padding: 0 1.5rem 1.5rem;
+  }

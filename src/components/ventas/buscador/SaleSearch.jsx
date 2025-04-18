@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Spinner from '../../spinner/Spinner'
 import './SaleSearch.scss'
 import useStore from '../../../store/useStore';
 import PlusIcon from '../../icons/PlusIcon';
+import Modal from '../../modal/Modal';
+
 
 const SaleSearch = ({
   searchTerm,
@@ -14,6 +16,10 @@ const SaleSearch = ({
 
 
   const { role } = useStore((state) => state.jwtData);
+  const cupones = useStore((state) => state.cupones);
+
+  const [showModal , setShowModal] = useState(false);
+
 
 
   const getStockClass = (stock) => {
@@ -26,6 +32,9 @@ const SaleSearch = ({
 
   return (
       <div className="col-md-4 border-end buscador_container">
+          <button className="btn_open_coupons" onClick={() => {setShowModal(true)}}>
+            🏷️ Ver cupones
+          </button>
           <h5>📦 Listado de productos</h5>
           <input className="form-control mb-2 form_buscador" placeholder="🔎 Buscar..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           <ul className="list-group">
@@ -67,6 +76,54 @@ const SaleSearch = ({
               <li className="list-group-item">No se encontraron productos</li>
             )}
           </ul>
+
+          <Modal show={showModal} onClose={() => setShowModal(false)} title="Listado de cupones">
+
+            <div className="modal-body">
+              <div className="cupones_container">
+
+                {/* cupones: [{
+      id: 1,
+      code: 'DESCUENTO10',
+      description: 'Descuento del 10% en la compra',
+      discount: 10,
+    },
+    {
+      id: 2,
+      code: 'REGALO15',
+      description: 'Regalo especial en la compra',
+      discount: 15,
+    }], */}
+                {
+                  cupones?.length ? (
+                    cupones.map((cupon) => (
+                      <div className="cupon" key={cupon.id}>
+                        <p className='text'>Código: {cupon.code}</p>
+                        <p className='text'>Descripción: {cupon.description}</p>
+                        <p className='text'>Descuento: {cupon.discount}%</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className='text'>No hay cupones disponibles</p>
+                  )
+                }
+              </div>
+            </div>
+           
+            <div className="modal-footer">
+              {/* <button
+                className="btn btn-danger"
+                onClick={() => {
+                  // Clear the modal and reset selected product
+                  setShowModal(false);
+                  setSelectedProduct(null);
+                }}
+              >
+                Cerrar
+              </button> */}
+            </div>
+          </Modal>
+
         </div>
 
   )

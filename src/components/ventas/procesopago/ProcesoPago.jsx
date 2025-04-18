@@ -5,6 +5,7 @@ import TransferIcon from '../../icons/TransferenciaIcon';
 import { CouponIcon } from '../../icons/CouponIcon';
 import useStore from '../../../store/useStore';
 import { errorAlert } from '../../../helpers/alerts';
+import './ProcesoPago.scss';
 
 const ProcesoPago = () => {
     const totalCompra = useStore((s) => s.totalCompra);
@@ -65,21 +66,12 @@ const ProcesoPago = () => {
             <p className="fs-4 mt-4 text-center">
                 Aplicar un cupón al total de la compra
             </p>
-            <div className="coupon_container">
+            <div className="coupon_total_cntainer d-flex flex-column align-items-center">
                 <input
                     type="text"
                     placeholder="Código del cupón"
                     className="form-control"
-                    onChange={(e) => setEfectivo(e.target.value)}
-                    onBlur={() => validarEfectivo(efectivo)}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                            e.preventDefault(); // evita un submit accidental
-                            e.target.blur(); // dispara onBlur una sola vez
-                        }
-                    }}
                 />
-                <p>Agregar cupón general</p>
             </div>
 
             <p className="fs-4 mt-4 text-center">
@@ -148,10 +140,10 @@ const ProcesoPago = () => {
                 </div>
             </div>
 
-            <div className="coupon_container">
-                <CouponIcon width="40" height="40" />
-                <p>Agregar cupón general</p>
-            </div>
+            <button className="d-flex btn_finalizar_venta mt-4 mx-auto">
+                <CouponIcon width="30" height="30" />
+                <p>Finalizar venta</p>
+            </button>
         </div>
     );
 };

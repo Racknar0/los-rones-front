@@ -50,3 +50,25 @@ body input {
 }
 
 
+.modal-content {
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
+  }
+  
+  .modal-header {
+    background: #6564d8;
+    color: #fff;
+  
+    h5 {
+      font-size: 1.8rem;
+      margin: 0;
+      font-weight: 600;
+    }
+  
+    .btn-close {
+      filter: invert(1); /* cierre blanco */
+    }
+  }
+  

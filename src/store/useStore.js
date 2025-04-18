@@ -17,10 +17,66 @@ const useStore = create(
     jwtData: initialJwtData,
     selectedStore: initialSelectedStore,
 
-    totalCompra: 100,
+    cartItems: [],
+
+    totalCompra: 0,
+    totalCompraSinCupon: 0,
+    selectedCoupon: null, 
+
     dineroRecibido: 0,
     cambio: 0,
     tipoPago: '',
+    cupones: [{
+      id: 1,
+      code: 'DESCUENTO10',
+      description: 'Descuento del 10% en la compra',
+      discount: 10,
+    },
+    {
+      id: 2,
+      code: 'REGALO15',
+      description: 'Regalo especial en la compra',
+      discount: 15,
+    },
+    {
+      id: 3,
+      code: 'DESCUENTO20',
+      description: 'Descuento del 20% en la compra',
+      discount: 20,
+    },
+    {
+      id: 4,
+      code: 'REGALO25',
+      description: 'Regalo especial en la compra',
+      discount: 25,
+    },
+    {
+      id: 5,
+      code: 'DESCUENTO30',
+      description: 'Descuento del 30% en la compra',
+      discount: 30,
+    },
+    {
+      id: 6,
+      code: 'REGALO35',
+      description: 'Regalo especial en la compra',
+      discount: 35,
+    },
+    {
+      id: 7,
+      code: 'DESCUENTO40',
+      description: 'Descuento del 40% en la compra',
+      discount: 40,
+    },
+    {
+      id: 8,
+      code: 'REGALO45',
+      description: 'Regalo especial en la compra',
+      discount: 45,
+    }
+  
+  
+    ],
     
     // Funciones
     setLoading: (value) => set({ loading: value }),
@@ -56,8 +112,20 @@ const useStore = create(
       set({ selectedStore: store });
     },
 
+    setCartItems: (items) => {
+      set({ cartItems: items });
+    },
+
     setTotalCompra: (total) => {
       set({ totalCompra: total });
+    },
+
+    setTotalCompraSinCupon: (total) => {
+      set({ totalCompraSinCupon: total });
+    },
+
+    setSelectedCoupon: (coupon) => {
+      set({ selectedCoupon: coupon });
     },
 
     setDineroRecibido: (dinero) => {
@@ -70,6 +138,10 @@ const useStore = create(
 
     setTipoPago: (tipo) => {
       set({ tipoPago: tipo });
+    },
+
+    setCupones: (cupones) => {
+      set({ cupones: cupones });
     },
 
   }))
