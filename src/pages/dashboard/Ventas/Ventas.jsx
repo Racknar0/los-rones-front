@@ -7,7 +7,6 @@ import SaleSearch from '../../../components/ventas/buscador/SaleSearch';
 import SalePanel from '../../../components/ventas/panel/SalePanel';
 import './Ventas.scss';
 import Modal from '../../../components/modal/Modal';
-import PlusIcon from '../../../components/icons/PlusIcon';
 import ModalPerecedero from '../../../components/ventas/modalPerecedero/ModalPerecedero';
 
 const Ventas = () => {
@@ -22,12 +21,15 @@ const Ventas = () => {
 
   const selectedCoupon = useStore((state) => state.selectedCoupon);
 
+  const cartItems = useStore((state) => state.cartItems);
+  const setCartItems = useStore((state) => state.setCartItems);
+
 
   const [productData, setProductData] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const [cartItems, setCartItems]   = useState([]);
+  // const [cartItems, setCartItems]   = useState([]);
 
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -35,32 +37,16 @@ const Ventas = () => {
  // Para darle estilo al ultimo producto agregado al carrito
   const [lastAddedIndex, setLastAddedIndex] = useState(null);
 
-
-
-
   useEffect(() => {
      console.log('cartItems useEffect', cartItems);
-     
-    // Calcular el total de la compra sumando los precios de los productos en el carrito se debe parsear a numero
-    // const total = cartItems.reduce((acc, item) => {
-    //   const price = parseFloat(item.product.salePrice) || 0; // Asegurarse de que el precio sea un número
-    //   return acc + price;
-    // }, 0);
-    // setTotalCompra(total);
 
     // 1) subtotal sin descuentos
     const base = cartItems.reduce(
       (acc, item) => acc + (parseFloat(item.product.salePrice) || 0),
       0
     );
-    setTotalCompraSinCupon(base);
-
-
-    // 2) aplica descuento (si hay cupón)
-    // const discount = selectedCoupon?.discount ?? 10; // porcentaje
-    // const totalConDescuento = base * (1 - discount / 100);
-    // setTotalCompra(parseFloat(totalConDescuento.toFixed(2)));
-
+    // setTotalCompraSinCupon(base);
+    // setTotalCompra(base);
   }, [cartItems]);
 
 
@@ -102,6 +88,12 @@ const Ventas = () => {
     // 2) tomamos la primera unidad (o la más antigua, etc.)
     const unit = product.stockunit[0];
 
+    const cartUnit = {
+      ...unit,                               // id, product, expirationDate, etc.
+      itemCoupon: null,                      // cupón propio (aún sin asignar)
+      priceWithItemCoupon: Number(unit.product.salePrice), // precio “neto” inicial
+    };
+
     // 3) Removemos la unidad del array de unidades
     const updatedStockUnits = product.stockunit.filter((_, index) => index !== 0);
 
@@ -116,13 +108,19 @@ const Ventas = () => {
     // setCartItems(prev => [...prev, unit]);
 
     // 6) Añadir al carrito y marcar el índice recién añadido
-    setCartItems(prev => {
-      const newIndex = prev.length;
-        setLastAddedIndex(newIndex);
-       // después de 1s, quita el highlight
-        setTimeout(() => setLastAddedIndex(null), 100);
-        return [...prev, unit];
-     });
+    // setCartItems(prev => {
+    //   const newIndex = prev.length;
+    //     setLastAddedIndex(newIndex);
+    //    // después de 1s, quita el highlight
+    //     setTimeout(() => setLastAddedIndex(null), 100);
+    //     return [...prev, unit];
+    //  });
+
+    const newIndex = cartItems.length;          
+    setLastAddedIndex(newIndex);
+    setTimeout(() => setLastAddedIndex(null), 100);
+    // setCartItems([...cartItems, unit]);
+    setCartItems([...cartItems, cartUnit]);  // ⬅️ahora push el OBJETO nuevo 
   
   };
 
@@ -141,7 +139,7 @@ const Ventas = () => {
   // — quita del carrito según stockUnitId único —
   const handleRemoveFromCart = (unit) => {
     // Remover el stock unit del carrito
-    setCartItems(prev => prev.filter(item => item.id !== unit.id));
+    setCartItems(cartItems.filter(item => item.id !== unit.id));
 
     // Añadir el stock unit de vuelta al producto perecedero
     const updatedProductData = productData.map(p => {
@@ -183,7 +181,6 @@ const Ventas = () => {
           setProductData={setProductData}
           setShowModal={setShowModal}
           productData={productData}
-          setCartItems={setCartItems}
           setLoadingProducts={setLoadingProducts}
           setLastAddedIndex={setLastAddedIndex}
 

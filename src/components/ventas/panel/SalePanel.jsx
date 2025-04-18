@@ -3,8 +3,18 @@ import './SalePanel.scss';
 import { CouponIcon } from '../../icons/CouponIcon';
 import { DeleteIcon } from '../../icons/DeleteIcon';
 import ProcesoPago from '../procesopago/ProcesoPago';
+import useStore from '../../../store/useStore';
 
 const SalePanel = ({  cartItems, onRemoveFromCart, lastAddedIndex }) => {
+
+  const { applyItemCoupon, removeItemCoupon, cupones } = useStore();
+
+  const handleItemCoupon = (unit, code) => {
+    const cup = cupones.find((c) => c.code === code);
+    if (cup) applyItemCoupon(unit.id, cup);
+    else removeItemCoupon(unit.id);   // para vacío o no válido
+  };
+
   return (
     <div className="col-md-8 sale_panel_container pt-4">
       <h5 className="text-center fs-3">Detalles de la Venta</h5>
@@ -30,12 +40,22 @@ const SalePanel = ({  cartItems, onRemoveFromCart, lastAddedIndex }) => {
               >
                 <td>{item.product.name}</td>
                 <td>{item.product.code}</td>
-                <td>${item.product.salePrice}</td>
+                <td>
+                  {item.itemCoupon ? (
+                    <span className="before_coupon">${item.product.salePrice}</span>
+                  ) : null}
+                   ${item.priceWithItemCoupon}</td>
                 <td>{item.expirationDate ? new Date(item.expirationDate).toLocaleDateString() : 'N/A'}</td>
                 <td className="text-center">
-                  <button className="btn btn-primary btn-sm">
-                    <CouponIcon width="20px" height="20px" />
-                  </button>
+                  {/* <input type="text" placeholder="Cupón" className="form-control" /> */}
+                  <input
+                    className="form-control"
+                    defaultValue={item.itemCoupon?.code || ''}
+                    onBlur={(e) =>
+                      handleItemCoupon(item, e.target.value.trim().toUpperCase())
+                    }
+                  />
+
                 </td>
                 <td className="text-center">
                   <DeleteIcon

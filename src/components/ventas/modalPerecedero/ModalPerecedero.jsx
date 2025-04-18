@@ -1,6 +1,7 @@
 import React from 'react'
 import PlusIcon from '../../icons/PlusIcon';
 import './ModalPerecedero.scss'
+import useStore from '../../../store/useStore';
 
 const ModalPerecedero = ({
     selectedProduct,
@@ -8,12 +9,13 @@ const ModalPerecedero = ({
     setProductData,
     setShowModal,
     productData,
-    setCartItems,
     setLastAddedIndex
 }) => {
 
 
-    console.log('selectedProduct', selectedProduct);
+    const cartItems = useStore((state) => state.cartItems);
+    const setCartItems = useStore((state) => state.setCartItems);
+
     // Ordenar los productos por fecha de vencimiento más antigua
     if (selectedProduct && selectedProduct.stockunit) {
         selectedProduct.stockunit.sort((a, b) => new Date(a.expirationDate) - new Date(b.expirationDate));
@@ -47,13 +49,28 @@ const ModalPerecedero = ({
                         // Añadir al carrito el stock unit seleccionado
                         // setCartItems((prev) => [...prev, item]);
 
-                        setCartItems(prev => {
-                          const newIndex = prev.length;
-                            setLastAddedIndex(newIndex);
-                           // después de 1s, quita el highlight
-                            setTimeout(() => setLastAddedIndex(null), 100);
-                            return [...prev, item];
-                         });
+                        // setCartItems(prev => {
+                        //   const newIndex = prev.length;
+                        //     setLastAddedIndex(newIndex);
+                        //    // después de 1s, quita el highlight
+                        //     setTimeout(() => setLastAddedIndex(null), 100);
+                        //     return [...prev, item];
+                        //  });
+
+                        const cartUnit = {
+                          ...item,                               // id, product, expirationDate, etc.
+                          itemCoupon: null,                      // cupón propio (aún sin asignar)
+                          priceWithItemCoupon: Number(item.product.salePrice), // precio “neto” inicial
+                        };
+
+                        // setCartItems([...cartItems, cartUnit]);  // ⬅️ahora push el OBJETO nuevo 
+
+
+                        const newIndex = cartItems.length;          
+                        setLastAddedIndex(newIndex);
+                        setTimeout(() => setLastAddedIndex(null), 100);
+                        setCartItems([...cartItems, cartUnit]);   
+
 
                         console.log('selectedProduct.stockunit', selectedProduct.stockunit);
                         // Remover el stock unit del producto perecedero

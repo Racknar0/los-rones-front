@@ -112,12 +112,20 @@ const useStore = create(
       set({ selectedStore: store });
     },
 
-    setCartItems: (items) => {
-      set({ cartItems: items });
-    },
+     setCartItems: (items) => {
+         set({ cartItems: items });
+         get().recalcTotals();        // recalcula cada vez que cambie el carrito
+     },
 
     setTotalCompra: (total) => {
+      // Si hay un cupón seleccionado, aplica el descuento
+      const selectedCoupon = get().selectedCoupon;
+      if (selectedCoupon) {
+        const discount = (total * selectedCoupon.discount) / 100;
+        total -= discount;
+      }
       set({ totalCompra: total });
+      // set({ totalCompra: total });
     },
 
     setTotalCompraSinCupon: (total) => {
@@ -125,7 +133,8 @@ const useStore = create(
     },
 
     setSelectedCoupon: (coupon) => {
-      set({ selectedCoupon: coupon });
+        set({ selectedCoupon: coupon });
+        get().recalcTotals();        // ¡un solo lugar para el cálculo!
     },
 
     setDineroRecibido: (dinero) => {
@@ -143,6 +152,71 @@ const useStore = create(
     setCupones: (cupones) => {
       set({ cupones: cupones });
     },
+
+
+    /*───────────  CUPÓN POR ÍTEM  ───────────*/
+    applyItemCoupon: (unitId, coupon) => {
+      set((state) => {
+        const cartItems = state.cartItems.map((u) =>
+          u.id === unitId
+            ? {
+                ...u,
+                itemCoupon: coupon,
+                priceWithItemCoupon:
+                  u.product.salePrice * (1 - coupon.discount / 100),
+              }
+            : u
+        );
+        return { cartItems };
+      });
+      get().recalcTotals();          // ← actualiza totales
+    },
+
+    removeItemCoupon: (unitId) => {
+      set((state) => {
+        const cartItems = state.cartItems.map((u) =>
+          u.id === unitId
+            ? { ...u, itemCoupon: null, priceWithItemCoupon: u.product.salePrice }
+            : u
+        );
+        return { cartItems };
+      });
+      get().recalcTotals();
+    },
+
+    /*───────────  RECÁLCULO CENTRAL  ───────────*/
+    recalcTotals: () => {
+      const { cartItems, selectedCoupon } = get();
+
+      // Subtotal después de cupones por ítem
+      const base = cartItems.reduce(
+        (acc, u) => acc + Number(u.priceWithItemCoupon),
+        0
+      );
+
+      // Cupón global (si existe)
+      const pctGlobal = selectedCoupon?.discount ?? 0;
+      const total = base * (1 - pctGlobal / 100);
+
+      set({
+        totalCompraSinCupon: base,
+        totalCompra: Number(total.toFixed(2)),
+      });
+    },
+
+    resetFinisedSale: () => {
+      set({
+        cartItems: [],
+        totalCompra: 0,
+        totalCompraSinCupon: 0,
+        selectedCoupon: null,
+        dineroRecibido: 0,
+        cambio: 0,
+        tipoPago: '',
+      });
+    }
+
+
 
   }))
 );
