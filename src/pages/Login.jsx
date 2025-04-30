@@ -14,8 +14,8 @@ const Login = () => {
     const navigate = useNavigate();
     const token = useStore((state) => state.token); // Obtener el token del store
 
-    const [username, setUsername] = useState('racknaro');
-    const [password, setPassword] = useState('camilo2676');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [tienda, setTienda] = useState('');
     const [loading, setLoading] = useState(false);
     const [tiendas, setTiendas] = useState([]);

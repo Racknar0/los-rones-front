@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Spinner from '../../spinner/Spinner'
 import './SaleSearch.scss'
 import useStore from '../../../store/useStore';
 import PlusIcon from '../../icons/PlusIcon';
 import Modal from '../../modal/Modal';
+import HttpService from '../../../services/HttpService';
 
 
 const SaleSearch = ({
@@ -14,13 +15,35 @@ const SaleSearch = ({
   handleSelectProduct,
 }) => {
 
+  const httpService = new HttpService();
 
   const { role } = useStore((state) => state.jwtData);
   const cupones = useStore((state) => state.cupones);
-
+  const setCupones = useStore((state) => state.setCupones);
+  const [loadingCupones, setLoadingCupones] = useState(false);
   const [showModal , setShowModal] = useState(false);
 
+  //Obtener los cupones de la tienda
+  useEffect(() => {
+    getCupones();
+  }
+  , []);
 
+  const getCupones = async () => {
+    try {
+      setLoadingCupones(true);
+      const response = await httpService.getData(`/coupons`);
+      if (response.status === 200) {
+        setCupones(response.data);
+      } else {
+        console.error('Error al obtener los cupones:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error al obtener los cupones:', error);
+    } finally {
+      setLoadingCupones(false);
+    }
+  }
 
   const getStockClass = (stock) => {
     if (!stock?.stockunit || !stock?.stockunit.length) return 'low'; // Si no hay stock
@@ -81,47 +104,31 @@ const SaleSearch = ({
 
             <div className="modal-body">
               <div className="cupones_container">
-
-                {/* cupones: [{
-      id: 1,
-      code: 'DESCUENTO10',
-      description: 'Descuento del 10% en la compra',
-      discount: 10,
-    },
-    {
-      id: 2,
-      code: 'REGALO15',
-      description: 'Regalo especial en la compra',
-      discount: 15,
-    }], */}
                 {
-                  cupones?.length ? (
-                    cupones.map((cupon) => (
-                      <div className="cupon" key={cupon.id}>
-                        <p className='text'>Código: {cupon.code}</p>
-                        <p className='text'>Descripción: {cupon.description}</p>
-                        <p className='text'>Descuento: {cupon.discount}%</p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className='text'>No hay cupones disponibles</p>
+                  !loadingCupones &&
+                    cupones?.length ? (
+                      cupones.map((cupon) => (
+                        <div className="cupon" key={cupon.id}>
+                          <p className='text'>Código: {cupon.code}</p>
+                          <p className='text'>Descripción: {cupon.description}</p>
+                          <p className='text'>Descuento: {cupon.discount}%</p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className='text'>No hay cupones disponibles</p>
+                    )
+                }
+
+
+                {
+                  loadingCupones && (
+                    <div className='spinner_container'> <Spinner color="#6564d8" /> </div>
                   )
                 }
               </div>
             </div>
            
-            <div className="modal-footer">
-              {/* <button
-                className="btn btn-danger"
-                onClick={() => {
-                  // Clear the modal and reset selected product
-                  setShowModal(false);
-                  setSelectedProduct(null);
-                }}
-              >
-                Cerrar
-              </button> */}
-            </div>
+
           </Modal>
 
         </div>

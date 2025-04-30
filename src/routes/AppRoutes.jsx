@@ -15,6 +15,7 @@ import Ventas from '../pages/dashboard/Ventas/Ventas'
 import Apartados from '../pages/dashboard/Apartados/Apartados'
 import CambioTienda from '../pages/dashboard/CambioTienda/CambioTienda'
 import Stock from '../pages/dashboard/Stock/Stock'
+import Movimientos from '../pages/dashboard/Movimientos/Movimientos'
 
 const AppRoutes = () => {
   
@@ -30,6 +31,7 @@ const AppRoutes = () => {
         <Route path="ventas" element={<PrivateRoute element={<Ventas />} />} />
         <Route path="productos" element={<PrivateRoute element={<Productos />} />} />
         <Route path="stock" element={<PrivateRoute element={<Stock />} />} />
+        <Route path="movimientos" element={<PrivateRoute element={<Movimientos />} />} />
         <Route path="usuarios" element={<PrivateRoute element={<Usuarios />} />} />
         <Route path="cupones" element={<PrivateRoute element={<Cupones />} />} />
         <Route path="recibos" element={<PrivateRoute element={<Recibos />} />} />

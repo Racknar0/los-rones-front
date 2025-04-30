@@ -53,9 +53,12 @@ const Ventas = () => {
   // — efecto: recarga al cambiar tienda —
   useEffect(() => {
     fetchProducts();
+    
   }, [selectedStore]);
 
   const fetchProducts = async () => {
+    console.log('ACTUALIZANDO PRODUCTOS');
+
     setCartItems([]); 
     setLoadingProducts(true);
     try {
@@ -170,6 +173,7 @@ const Ventas = () => {
           cartItems={cartItems}
           onRemoveFromCart={handleRemoveFromCart}
           lastAddedIndex={lastAddedIndex}
+          fetchProducts={fetchProducts}
         />
       </div>
 

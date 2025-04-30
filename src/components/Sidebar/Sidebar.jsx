@@ -45,6 +45,11 @@ const menuConfig = {
         path: '/dashboard/stock',
         icon: <InventarioIcon width={40} height={40} />,
     },
+    Movimientos: {
+        roles: ['2', '3'],
+        path: '/dashboard/movimientos',
+        icon: <InventarioIcon width={40} height={40} />,
+    },
     Usuarios: {
         roles: ['2'],
         path: '/dashboard/usuarios',

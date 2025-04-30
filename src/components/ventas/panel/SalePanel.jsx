@@ -5,7 +5,7 @@ import { DeleteIcon } from '../../icons/DeleteIcon';
 import ProcesoPago from '../procesopago/ProcesoPago';
 import useStore from '../../../store/useStore';
 
-const SalePanel = ({  cartItems, onRemoveFromCart, lastAddedIndex }) => {
+const SalePanel = ({  cartItems, onRemoveFromCart, lastAddedIndex, fetchProducts }) => {
 
   const { applyItemCoupon, removeItemCoupon, cupones } = useStore();
 
@@ -82,7 +82,7 @@ const SalePanel = ({  cartItems, onRemoveFromCart, lastAddedIndex }) => {
 
       <hr className="mt-5 ms-4" />
       <h5 className="text-center fs-3 mt-5">Proceso de Pago</h5>
-      <ProcesoPago  />
+      <ProcesoPago  fetchProducts={fetchProducts} />
     </div>
   );
 };

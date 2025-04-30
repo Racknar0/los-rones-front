@@ -9,6 +9,7 @@ import {
     successAlert,
 } from '../../../helpers/alerts';
 import HttpService from '../../../services/HttpService';
+import useStore from '../../../store/useStore';
 
 const TableCategories = ({
     loadingCategories,
@@ -17,26 +18,26 @@ const TableCategories = ({
     getCategories,
     handleTabChange,
     setEditDataCategories,
-    setEditDataProduct
+    setEditDataProduct,
 }) => {
     const httpService = new HttpService();
 
+    const { role } = useStore((state) => state.jwtData);
+
     useEffect(() => {
         getCategories();
-        setEditDataCategories({ edit: false, categorieToEdit: null, });
+        setEditDataCategories({ edit: false, categorieToEdit: null });
         setEditDataProduct({ edit: false, productToEdit: null });
     }, []);
 
-
     const handleDeleteCategorie = async (id) => {
-
         const confirmDelete = await confirmAlert(
             '¿Está seguro que desea eliminar esta categoría?',
             'Esta acción no se puede deshacer.',
             'warning'
         );
 
-        if (!confirmDelete) return; 
+        if (!confirmDelete) return;
 
         try {
             setLoadingCategories(true);
@@ -46,7 +47,7 @@ const TableCategories = ({
                     'Categoria eliminada',
                     `La categoria ha sido eliminado exitosamente.`
                 );
-                getCategories(); 
+                getCategories();
             } else {
                 errorAlert('Error', 'No se pudo eliminar la categoría');
             }
@@ -58,13 +59,15 @@ const TableCategories = ({
         }
     };
 
-
     return (
         <div className="table_container">
             <table className="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Acciones</th>
+                        {['Admin', 'Moderador'].includes(role) && (
+                            <th>Acciones</th>
+                        )}
+
                         <th>Id</th>
                         <th>Nombre de categoría</th>
                         <th>Fecha de Creación</th>
@@ -77,38 +80,51 @@ const TableCategories = ({
                         categoriesData.length > 0 &&
                         categoriesData.map((u, index) => (
                             <tr key={index}>
-                                <td>
-                                    <button
-                                        className="btn btn-sm btn-primary me-2"
-                                        onClick={() => {
-                                            handleTabChange('crear_categoria');
-                                            setEditDataCategories({
-                                                edit: true,
-                                                categorieToEdit: u,
-                                            })
-                                        }}
-                                    >
-                                        <EditIcon
-                                            width={20}
-                                            height={20}
-                                            fill="#fff"
-                                        />
-                                    </button>
-                                    <button
-                                        className="btn btn-sm btn-danger"
-                                        onClick={() => handleDeleteCategorie(u.id)}
-                                    >
-                                        <DeleteIcon
-                                            width={20}
-                                            height={20}
-                                            fill="#fff"
-                                        />
-                                    </button>
-                                </td>
+                                {['Admin', 'Moderador'].includes(role) && (
+                                    <td>
+                                        <button
+                                            className="btn btn-sm btn-primary me-2"
+                                            onClick={() => {
+                                                handleTabChange(
+                                                    'crear_categoria'
+                                                );
+                                                setEditDataCategories({
+                                                    edit: true,
+                                                    categorieToEdit: u,
+                                                });
+                                            }}
+                                        >
+                                            <EditIcon
+                                                width={20}
+                                                height={20}
+                                                fill="#fff"
+                                            />
+                                        </button>
+                                        <button
+                                            className="btn btn-sm btn-danger"
+                                            onClick={() =>
+                                                handleDeleteCategorie(u.id)
+                                            }
+                                        >
+                                            <DeleteIcon
+                                                width={20}
+                                                height={20}
+                                                fill="#fff"
+                                            />
+                                        </button>
+                                    </td>
+                                )}
+
                                 <td>{u.id || 'No disponible'}</td>
                                 <td>{u.name || 'No disponible'}</td>
-                                <td>{u.createdAt.split('T')[0] || 'No disponible'}</td>
-                                <td>{u.updatedAt.split('T')[0] || 'No disponible'}</td>
+                                <td>
+                                    {u.createdAt.split('T')[0] ||
+                                        'No disponible'}
+                                </td>
+                                <td>
+                                    {u.updatedAt.split('T')[0] ||
+                                        'No disponible'}
+                                </td>
                             </tr>
                         ))}
                 </tbody>

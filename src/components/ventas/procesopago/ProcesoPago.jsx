@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { CouponIcon } from '../../icons/CouponIcon';
 import useStore from '../../../store/useStore';
-import { confirmAlert, errorAlert, successAlert } from '../../../helpers/alerts';
+import { confirmAlert, errorAlert, successAlert, timerAlert } from '../../../helpers/alerts';
 import TotalValue from '../totalValue/TotalValue';
 import CuponTotal from '../cuponTotal/CuponTotal';
 import SelectMetodoPago from '../selectMetodoPago/SelectMetodoPago';
@@ -11,7 +11,9 @@ import HttpService from '../../../services/HttpService';
 import Spinner from '../../spinner/Spinner';
 import CashIcon from '../../icons/CashIcon';
 
-const ProcesoPago = () => {
+const ProcesoPago = ({
+    fetchProducts
+}) => {
     const totalCompra = useStore((s) => s.totalCompra);
     const setTotalCompra = useStore((s) => s.setTotalCompra);
     const totalCompraSinCupon = useStore((s) => s.totalCompraSinCupon);
@@ -99,13 +101,25 @@ const ProcesoPago = () => {
             })),
         }
 
+       
+
         try {
             setLoading(true);
             const res = await httpService.postData('/sale', dataToSend);
             if (res.status === 201) {
+                const BACK_HOST = import.meta.env.VITE_BACK_HOST;
                 // Aquí puedes agregar la lógica para manejar la respuesta exitosa
-                successAlert('Éxito', 'Venta finalizada correctamente');
+                console.log('Venta registrada con éxito', res.data.sale.id);
                 resetFinisedSale();
+                setEfectivo('');
+                fetchProducts();
+                await timerAlert('Éxito', 'Venta registrada con éxito', 2000);
+                // Abrir en una nueva pestaña
+                const newWindow = window.open(`${BACK_HOST}/sale/generate-pdf/${res.data.sale.id}`, '_blank');
+                if (newWindow) {
+                    newWindow.focus();
+                }
+                
             } else {
                 errorAlert('Error', 'No se pudo finalizar la venta');
             }

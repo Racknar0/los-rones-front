@@ -1,8 +1,11 @@
 import React from 'react'
+import TableRecibos from '../../../components/tableRecibos/TableRecibos'
 
 const Recibos = () => {
   return (
-    <div>Recibos</div>
+    <div>
+      <TableRecibos/>
+    </div>
   )
 }
 
