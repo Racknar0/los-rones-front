@@ -16,6 +16,7 @@ import Apartados from '../pages/dashboard/Apartados/Apartados'
 import CambioTienda from '../pages/dashboard/CambioTienda/CambioTienda'
 import Stock from '../pages/dashboard/Stock/Stock'
 import Movimientos from '../pages/dashboard/Movimientos/Movimientos'
+import ListadoCortes from '../pages/dashboard/ListadoCortes/ListadoCortes'
 
 const AppRoutes = () => {
   
@@ -38,6 +39,7 @@ const AppRoutes = () => {
         <Route path="cortes" element={<PrivateRoute element={<Cortes />} />} />
         <Route path="apartados" element={<PrivateRoute element={<Apartados />} />} />
         <Route path="cambio-tienda" element={<PrivateRoute element={<CambioTienda />} />} />
+        <Route path="listado-cortes" element={<PrivateRoute element={<ListadoCortes />} />} />
         {/* Otras rutas pueden ser agregadas aquí */}
       </Route>
 

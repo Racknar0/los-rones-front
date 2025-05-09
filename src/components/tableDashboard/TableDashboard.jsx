@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { DateRange } from 'react-date-range';
 import HttpService from '../../services/HttpService';
-import './TableRecibos.scss';
+import './TableDashboard.scss';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import Modal from '../modal/Modal';
@@ -11,7 +11,9 @@ import Spinner from '../spinner/Spinner';
 import IconBillBlue from '../icons/BillBlueIcon';
 import useStore from '../../store/useStore';
 
-const TableRecibos = () => {
+const TableDashboard = ({
+  setDataSales
+}) => {
   const httpService = new HttpService();
   const BACK_HOST   = import.meta.env.VITE_BACK_HOST;
   const selectedStore = useStore((state) => state.selectedStore);
@@ -56,12 +58,9 @@ const TableRecibos = () => {
     fetchRecibos(range.startDate, range.endDate);
   }, []); // <-- solo la primera vez
 
-
   useEffect(() => {
     fetchRecibos(range.startDate, range.endDate);
   }, [selectedStore]); // <-- cada vez que cambia la tienda
-
-  
 
   // fetchRecibos reutilizable: recibe dos Date
   const fetchRecibos = async (start, end) => {
@@ -77,6 +76,7 @@ const TableRecibos = () => {
       const resp = await httpService.postData('/sale/filter', payload);
       if (resp.status === 200) {
         setRecibos(resp.data || []);
+        setDataSales(resp.data || []);
       } else {
         console.error('Error al traer recibos:', resp.statusText);
       }
@@ -101,8 +101,10 @@ const TableRecibos = () => {
   };
 
   return (
-    <div className="tableRecibos container-fluid mt-4">
-      <h1 className="mb-4">Recibos</h1>
+
+
+    <div className="TableDashboard container-fluid mt-4">
+
 
       <div className="date-picker-wrapper mb-3 w-100">
         <button
@@ -240,4 +242,4 @@ const TableRecibos = () => {
   );
 };
 
-export default TableRecibos;
+export default TableDashboard;

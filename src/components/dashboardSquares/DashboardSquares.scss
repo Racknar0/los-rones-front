@@ -1,0 +1,32 @@
+.dashboard-container {
+  display: flex;
+  flex-wrap: wrap;      // permite wrap cuando excede el ancho
+  gap: 16px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.dashboard-square {
+  background-color: #b339e3;
+  color: white;
+  border-radius: 12px;
+  padding: 20px;
+  min-width: 150px;
+  max-width: 200px;
+  flex: 1 1 140px;      // crece y hace wrap si es necesario
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-title {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.dashboard-value {
+  font-size:2.5rem;
+  font-weight: bold;
+}

@@ -30,7 +30,7 @@ const menuConfig = {
         icon: <ChartIcon width={40} height={40} />,
     },
     Ventas: {
-        roles: ['1', '2'],
+        roles: ['1'],
         path: '/dashboard/ventas',
         icon: <SellIcon width={40} height={40} />,
     },
@@ -68,6 +68,11 @@ const menuConfig = {
     Cortes: {
         roles: ['1'],
         path: '/dashboard/cortes',
+        icon: <CorteIcon width={40} height={40} />,
+    },
+    ListadoCortes: {
+        roles: ['2'],
+        path: '/dashboard/listado-cortes',
         icon: <CorteIcon width={40} height={40} />,
     },
     Apartados: {

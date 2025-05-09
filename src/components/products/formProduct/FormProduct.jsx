@@ -80,11 +80,14 @@ const FormProduct = ({
 
         const { name, code, categoryId, purchasePrice, salePrice } = product;
 
+        console.log('product', product);
+
+
         if (!name || !code || !categoryId || !purchasePrice || !salePrice) {
             return errorAlert('Error', 'Por favor, completa todos los campos.');
         }
 
-        if (product.purchasePrice >= product.salePrice) {
+        if (parseFloat(product.purchasePrice) >= parseFloat(product.salePrice)) {
             return errorAlert('Error', 'El precio de compra no puede ser mayor o igual que el de venta.');
         }
 

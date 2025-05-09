@@ -1,6 +1,6 @@
 /* src/components/TableRecibos/TableRecibos.scss */
 
-.tableRecibos {
+.TableDashboard {
     .date-picker-wrapper {
       position: relative;
       display: inline-block;
@@ -22,15 +22,17 @@
       padding: 0.5rem 1rem;
       border-radius: 4px;
       font-weight: 500;
-      font-size: 1rem;
       transition: background-color 0.2s ease;
-      margin-bottom: 1rem;
-  
+      width: 50%;
+      max-width: 300px;
+      font-size: 1.6rem;
+
       &:hover,
       &:focus {
-        background-color: #5750b8;
+        background-color: #4337e0; // un tono más oscuro al pasar el ratón
         border-color:   #5750b8;
         outline: none;
+        color: #fff;
       }
   
       &:active {
