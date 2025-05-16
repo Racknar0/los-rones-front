@@ -4,7 +4,8 @@ const Cambio = ({
     efectivo,
     setEfectivo,
     cambio,
-    validarEfectivo
+    validarEfectivo,
+    tipoPago
 }) => {
   return (
     <>
@@ -26,6 +27,8 @@ const Cambio = ({
                                 e.target.blur(); // dispara onBlur una sola vez
                             }
                         }}
+                        disabled={tipoPago !== 'efectivo' ? true : false}
+                        style={{ backgroundColor: (tipoPago === 'tarjeta' || tipoPago === 'transferencia') ? '#bebebe' : '' }}
                     />
                 </div>
                 <div className="cambio_container">

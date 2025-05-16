@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { CouponIcon } from '../../icons/CouponIcon';
 import useStore from '../../../store/useStore';
 import { confirmAlert, errorAlert, successAlert, timerAlert } from '../../../helpers/alerts';
@@ -35,6 +35,18 @@ const ProcesoPago = ({
     const [loading, setLoading] = useState(false);
 
     const httpService = new HttpService();
+
+    useEffect(() => {
+        if (tipoPago === 'tarjeta' || tipoPago === 'transferencia') {
+            // setear el efectivo al total de la compra
+            setEfectivo(totalCompra);
+            setCambio(0);
+        } else {
+            setEfectivo('');
+            setCambio(0);
+        }
+
+    }, [tipoPago]);
 
     // ── Validación al salir del input ──
     const validarEfectivo = async (raw) => {
@@ -161,6 +173,7 @@ const ProcesoPago = ({
                 setEfectivo={setEfectivo}
                 cambio={cambio}
                 validarEfectivo={validarEfectivo}
+                tipoPago={tipoPago}
             />
           
                 

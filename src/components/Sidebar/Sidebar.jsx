@@ -46,7 +46,7 @@ const menuConfig = {
         icon: <InventarioIcon width={40} height={40} />,
     },
     Movimientos: {
-        roles: ['2', '3'],
+        roles: ['1', '2', '3'],
         path: '/dashboard/movimientos',
         icon: <InventarioIcon width={40} height={40} />,
     },
@@ -71,7 +71,7 @@ const menuConfig = {
         icon: <CorteIcon width={40} height={40} />,
     },
     ListadoCortes: {
-        roles: ['2'],
+        roles: ['1', '2'],
         path: '/dashboard/listado-cortes',
         icon: <CorteIcon width={40} height={40} />,
     },

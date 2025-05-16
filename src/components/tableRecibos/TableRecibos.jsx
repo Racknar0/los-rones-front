@@ -77,6 +77,7 @@ const TableRecibos = () => {
       const resp = await httpService.postData('/sale/filter', payload);
       if (resp.status === 200) {
         setRecibos(resp.data || []);
+        console.log('Recibos:', resp.data);
       } else {
         console.error('Error al traer recibos:', resp.statusText);
       }
@@ -166,7 +167,7 @@ const TableRecibos = () => {
                       <EyeIcon />
                     </span>
                   </td>
-                  <td>{r.id}</td>
+                  <td>{r.ticketNumber}</td>
                   <td>${parseFloat(r.totalAmount).toFixed(2)}</td>
                   <td>{r.paymentMethod}</td>
                   <td>
@@ -200,17 +201,16 @@ const TableRecibos = () => {
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
-        title={selected ? `Recibo #${selected.id}` : 'Detalles'}
+        title={selected ? `Recibo #${selected.ticketNumber}` : 'Detalles'}
       >
         {selected && (
           <div>
             <ul className="list-unstyled row mb-4">
               <li className="col-12 col-md-6">
                 <div className="chip">
-                  <strong>Ticket:</strong> {selected.id}
+                  <strong>Ticket:</strong> {selected.ticketNumber}
                 </div>
               </li>
-              {/* ... resto de chips ... */}
             </ul>
             <h5 className="mt-4">Ítems de la venta</h5>
             <div className="table-responsive">

@@ -44,6 +44,7 @@ axiosInstance.interceptors.response.use(
       if (error.response.status === 401) {
         // Si el error es 401 Unauthorized, muestra la alerta y luego cierra sesión
         localStorage.removeItem('token'); // Elimina el token
+        localStorage.removeItem('selectedStore'); // Elimina el usuario
         window.location.href = '/'; // Redirige al login
       }
 

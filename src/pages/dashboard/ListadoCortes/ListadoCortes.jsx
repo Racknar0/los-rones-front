@@ -152,8 +152,9 @@ const ListadoCortes = () => {
               cortes.map(corte => (
                 <tr key={corte.id}>
                   <td>
-                    {new Date(corte.date).toLocaleDateString('es-ES', {
-                      dateStyle: 'short'
+                  {new Date(corte.date).toLocaleDateString('es-ES', {
+                      dateStyle: 'short',
+                      timeZone: 'UTC'
                     })}
                   </td>
                   <td>{corte.folioInicial}</td>
