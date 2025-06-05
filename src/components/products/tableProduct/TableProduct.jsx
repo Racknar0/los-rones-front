@@ -36,7 +36,6 @@ const TableProduct = ({
     getProducts();
     setEditDataProduct({ edit: false, productToEdit: null });
     setEditDataCategories({ edit: false, categorieToEdit: null });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleDeleteProduct = async (id) => {

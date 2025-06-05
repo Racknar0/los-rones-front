@@ -59,7 +59,6 @@ const TableMovimientos = () => {
       key:       'selection'
     });
     fetchMovimientos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedStore]);
 
   const fetchMovimientos = async () => {
