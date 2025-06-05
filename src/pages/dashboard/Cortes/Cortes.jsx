@@ -21,7 +21,6 @@ const Cortes = () => {
         const res = await httpService.getData(`/cortes/summary?storeId=${selectedStore}`);
         if (res.status === 200) {
           setData(res.data);
-          console.log(res.data);
         } else {
           throw new Error();
         }
@@ -51,6 +50,9 @@ const Cortes = () => {
   
     // 4) Handler del botón Guardar
     const handleSave = async () => {
+
+      const BACK_HOST = import.meta.env.VITE_BACK_HOST;
+
       try {
 
         const confirm = await confirmAlert('¿Estás seguro?', '¿Deseas guardar el corte?');
@@ -60,6 +62,13 @@ const Cortes = () => {
         if (res.status === 201) {
           successAlert('Éxito', 'Corte guardado correctamente');
           getDetails();
+
+          // Limpiar comentarios
+          setComentarios('');
+          // Abrir la url del pdf del corte
+          const pdfUrl = `${BACK_HOST}/cortes/generate-pdf/${res.data.id}`;
+          window.open(pdfUrl, '_blank');
+
         } else {
           throw new Error();
         }
@@ -78,6 +87,12 @@ const Cortes = () => {
               if (retry.status === 201) {
                 successAlert('Éxito', 'Corte reemplazado correctamente');
                 getDetails();
+
+                // Limpiar comentarios
+                setComentarios('');
+                // Abrir la url del pdf del corte
+                const pdfUrl = `${BACK_HOST}/cortes/generate-pdf/${retry.data.id}`;
+                window.open(pdfUrl, '_blank');
               } else {
                 throw new Error();
               }

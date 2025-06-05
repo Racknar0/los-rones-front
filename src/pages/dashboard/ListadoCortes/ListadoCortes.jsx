@@ -8,10 +8,12 @@ import useStore from '../../../store/useStore';
 import './ListadoCortes.scss';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
+import IconBillBlue from '../../../components/icons/BillBlueIcon';
 
 const ListadoCortes = () => {
   const httpService   = new HttpService();
   const selectedStore = useStore(state => state.selectedStore);
+  const BACK_HOST     = import.meta.env.VITE_BACK_HOST;
 
   const [range, setRange]                = useState({
     startDate: new Date(),
@@ -133,6 +135,7 @@ const ListadoCortes = () => {
               <th>Tarjeta</th>
               <th>Transferencia</th>
               <th>Comentarios</th>
+              <th><IconBillBlue width={24} height={24} /></th>
             </tr>
           </thead>
           <tbody>
@@ -165,6 +168,20 @@ const ListadoCortes = () => {
                   <td>${Number(corte.tarjeta).toFixed(2)}</td>
                   <td>${Number(corte.transferencia).toFixed(2)}</td>
                   <td>{corte.comentarios || '—'}</td>
+                  <td>
+                    <span
+                      role="button"
+                      title="Ver Ticket"
+                      onClick={() =>
+                        window.open(
+                          `${BACK_HOST}/cortes/generate-pdf/${corte.id}`,
+                          '_blank'
+                        )
+                      }
+                    >
+                      <IconBillBlue width={24} height={24} />
+                    </span>
+                  </td>
                 </tr>
               ))
             )}

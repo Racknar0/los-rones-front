@@ -11,6 +11,7 @@ const ZoomableImage = ({ src, alt, thumbnailWidth = 50, thumbnailHeight = 50 }) 
         width={thumbnailWidth}
         height={thumbnailHeight}
         style={{ cursor: 'pointer' }}
+        loading='lazy'
       />
     </Zoom>
   );
