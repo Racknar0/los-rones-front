@@ -13,7 +13,8 @@
 .sidebar_footer {
     
     max-width: 140px;
-        margin: 0 auto;
+    margin: 0 auto;
+    display: none;
 
     @media only screen and (min-width: 768px){
         position: absolute;

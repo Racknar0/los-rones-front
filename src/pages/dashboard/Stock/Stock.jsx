@@ -12,6 +12,8 @@ import useStore from '../../../store/useStore.js';
 import './Stock.scss';
 import Modal from '../../../components/modal/Modal.jsx';
 import StockTable from '../../../components/stock/stockTable/StockTable.jsx';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 // const mockStores = [
 //   { id: 1, name: 'Tienda Centro' },
@@ -244,9 +246,48 @@ const Stock = () => {
         }
     };
 
+    const handleExportStock = () => {
+        // 1) Prepara las filas
+        const rows = [];
+        console.log(filteredProducts)
+
+        filteredProducts.forEach(prod => {
+              rows.push({
+                Nombre:       prod.name,
+                Codigo:     prod.code,
+                Incl_Impuesto: prod.hasTax ? "Si" : "No",
+                Perecedero:     prod.perishable ? "Si" : "No",
+                Precio_Compra:     prod.purchasePrice,
+                Precio_Venta:     prod.salePrice,
+                Stock: prod.stockunit.length
+              });
+
+          });
+
+          // 2) Crea la hoja y el libro
+        const worksheet = XLSX.utils.json_to_sheet(rows, {
+        header: ['Nombre','Codigo','Incl_Impuesto','Perecedero','Precio_Compra','Precio_Venta','Stock']
+        });
+
+        const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Stock');
+
+            // 3) Genera el buffer y dispara la descarga
+            const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+            const blob = new Blob([wbout], { type: 'application/octet-stream' });
+            saveAs(blob, `stock_${new Date().toISOString().slice(0,10)}.xlsx`);
+    }
+
     return (
         <div className="container-fluid mt-4 main_container">
             <h1 className="text-center  mb-5">Gestión de Stock</h1>
+
+            <button
+            className="btn btn-success exportar_btn"
+            onClick={handleExportStock}
+            >
+            Exportar Stock
+            </button>
 
             <div className="row">
                 {/* Panel izquierdo: Lista de productos */}
