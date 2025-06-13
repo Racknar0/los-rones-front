@@ -254,6 +254,7 @@ const Stock = () => {
         filteredProducts.forEach(prod => {
               rows.push({
                 Nombre:       prod.name,
+                Categoria:   prod.category.name || 'Sin categoría',
                 Codigo:     prod.code,
                 Incl_Impuesto: prod.hasTax ? "Si" : "No",
                 Perecedero:     prod.perishable ? "Si" : "No",
@@ -266,7 +267,7 @@ const Stock = () => {
 
           // 2) Crea la hoja y el libro
         const worksheet = XLSX.utils.json_to_sheet(rows, {
-        header: ['Nombre','Codigo','Incl_Impuesto','Perecedero','Precio_Compra','Precio_Venta','Stock']
+        header: ['Nombre','Categoria','Codigo','Incl_Impuesto','Perecedero','Precio_Compra','Precio_Venta','Stock']
         });
 
         const workbook = XLSX.utils.book_new();
