@@ -85,7 +85,8 @@ const Stock = () => {
         const term = searchTerm.toLowerCase();
         return (
             prod.name.toLowerCase().includes(term) ||
-            prod.code.toLowerCase().includes(term)
+            prod.code.toLowerCase().includes(term) ||
+            prod.category.name.toLowerCase().includes(term)
         );
     });
 
