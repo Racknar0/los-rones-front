@@ -27,6 +27,7 @@ const useStore = create(
     cambio: 0,
     tipoPago: '',
     cupones: [],
+    dataCambio: null, 
     
     // Funciones
     setLoading: (value) => set({ loading: value }),
@@ -101,6 +102,10 @@ const useStore = create(
 
     setCupones: (cupones) => {
       set({ cupones: cupones });
+    },
+
+    setDataCambio: (data) => {
+      set({ dataCambio: data });
     },
 
 
