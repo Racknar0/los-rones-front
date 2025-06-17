@@ -24,6 +24,7 @@ const Dashboard = () => {
 
   const exportarVentas = () => {
     // 1) Prepara las filas
+    
     const rows = [];
     dataSales.forEach(sale => {
       sale.saleItems.forEach(item => {

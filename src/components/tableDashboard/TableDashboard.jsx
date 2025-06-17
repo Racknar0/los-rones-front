@@ -75,8 +75,16 @@ const TableDashboard = ({
       await new Promise(res => setTimeout(res, 500));
       const resp = await httpService.postData('/sale/filter', payload);
       if (resp.status === 200) {
-        setRecibos(resp.data || []);
-        setDataSales(resp.data || []);
+        // Filtrar la data omitiendo los res.data que tienen isDeleted : true
+        const filteredData = resp.data.filter(item => !item.isDeleted);
+        // Actualizar el estado con los datos filtrados
+
+        console.log('Recibos traídos:', resp.data);
+        console.log('Recibos filtrados:', filteredData);
+        setRecibos(filteredData || []);
+        setDataSales(filteredData || []); 
+      
+
       } else {
         console.error('Error al traer recibos:', resp.statusText);
       }

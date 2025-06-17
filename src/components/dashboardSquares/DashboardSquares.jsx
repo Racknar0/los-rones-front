@@ -55,10 +55,14 @@ const DashboardSquares = ({ dataSales }) => {
   // 8) TOTAL GANANCIAS = totalVentas - totalCosto
   const totalGanancias = totalVentas - totalCosto;
 
+  // 9) TOTAL TICKETS = cantidad de ventas
+  const totalTickets = sales.length;
+
   // Array de métricas dinámico
   const metrics = [
     { title: 'TOTAL VENTAS', value: formatCurrency(totalVentas) },
     { title: 'TOTAL PRODUCTOS', value: totalProductos },
+    { title: 'TOTAL TICKETS', value: totalTickets },
     { title: 'TOTAL EFECTIVO', value: formatCurrency(totalEfectivo) },
     { title: 'TOTAL TARJETA', value: formatCurrency(totalTarjeta) },
     { title: 'TOTAL TRANSFERENCIAS', value: formatCurrency(totalTransferencias) },

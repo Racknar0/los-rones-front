@@ -55,5 +55,17 @@
         color: #343a40;
       }
     }
+
+    table{
+      tbody {
+        tr {
+          td {
+            &.deleted {
+              background-color: rgba(255, 0, 0, 0.233);
+            }
+          }
+        }
+      }
+    }
   }
   

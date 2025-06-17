@@ -10,11 +10,15 @@ import EyeIcon from '../icons/EyeIcon';
 import Spinner from '../spinner/Spinner';
 import IconBillBlue from '../icons/BillBlueIcon';
 import useStore from '../../store/useStore';
+import { DeleteIcon } from '../icons/DeleteIcon';
+import { confirmAlert, successAlert } from '../../helpers/alerts';
 
 const TableRecibos = () => {
   const httpService = new HttpService();
   const BACK_HOST   = import.meta.env.VITE_BACK_HOST;
   const selectedStore = useStore((state) => state.selectedStore);
+  const jwtData = useStore((state) => state.jwtData);
+  console.log('jwtData', jwtData);
 
   // 1) Calculamos los límites de hoy
   const todayStart = new Date();
@@ -101,6 +105,39 @@ const TableRecibos = () => {
     setShowModal(true);
   };
 
+  const handleDeleteRecibo = async (r) => {
+    console.log('Borrando recibo:', r);
+
+    // Lanzar confirmación
+    const confirm = await confirmAlert("¿Estás seguro?", "¿Deseas eliminar este recibo?", "warning");
+    if (!confirm) return;
+
+    // Consultar endpoint
+    try {
+      setLoading(true);
+
+      // simular retraso
+      const response = await httpService.deleteData("sale", r.id);
+
+      if (response.status === 200) {
+        successAlert("Recibo eliminado", "El recibo se ha eliminado correctamente", "success");
+      } else {
+        console.error('Error al eliminar recibo:', response);
+        throw new Error(response.statusText);
+      }
+      
+ 
+    } catch (err) {
+      console.error('Error al eliminar recibo:', err);
+    } finally {
+      fetchRecibos(range.startDate, range.endDate);
+      setLoading(false);
+      // Refrescar la lista de recibos
+    }
+
+
+  }
+
   return (
     <div className="tableRecibos container-fluid mt-4">
       <h1 className="mb-4">Recibos</h1>
@@ -138,7 +175,7 @@ const TableRecibos = () => {
               <th>Total</th>
               <th>Método Pago</th>
               <th>Fecha</th>
-              <th>Ticket</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -157,7 +194,7 @@ const TableRecibos = () => {
             ) : (
               recibos.map(r => (
                 <tr key={r.id}>
-                  <td>
+                  <td className={r.isDeleted ? 'deleted' : ''}>
                     <span
                       role="button"
                       className="ms-4"
@@ -167,17 +204,19 @@ const TableRecibos = () => {
                       <EyeIcon />
                     </span>
                   </td>
-                  <td>{r.ticketNumber}</td>
-                  <td>${parseFloat(r.totalAmount).toFixed(2)}</td>
-                  <td>{r.paymentMethod}</td>
-                  <td>
+                  <td
+                  className={r.isDeleted ? 'deleted' : ''}
+                  >{r.ticketNumber}</td>
+                  <td className={r.isDeleted ? 'deleted' : ''}>${parseFloat(r.totalAmount).toFixed(2)}</td>
+                  <td className={r.isDeleted ? 'deleted' : ''}>{r.paymentMethod}</td>
+                  <td className={r.isDeleted ? 'deleted' : ''}>
                     {new Date(r.createdAt).toLocaleString('es-ES', {
                       dateStyle: 'short',
                       timeStyle: 'short',
                       hour12: false
                     })}
                   </td>
-                  <td>
+                  <td className={r.isDeleted ? 'deleted' : ''}>
                     <span
                       role="button"
                       title="Ver Ticket"
@@ -190,6 +229,15 @@ const TableRecibos = () => {
                     >
                       <IconBillBlue width={24} height={24} />
                     </span>
+                    {
+                      !r.isDeleted && jwtData.roleId === 2 && (<span
+                        role="button"
+                        title="Ver Ticket"
+                        onClick={() => handleDeleteRecibo(r)}
+                      >
+                        <DeleteIcon width={24} height={24} className="ms-2 text-danger" />
+                      </span>)
+                    }
                   </td>
                 </tr>
               ))
