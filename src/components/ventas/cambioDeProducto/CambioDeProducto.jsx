@@ -25,8 +25,10 @@ const CambioDeProducto = () => {
   }, [selectedItems, setReturnedItems]);
 
   return (
-    <div>
-      <h2 className="mb-4">Devolver productos</h2>
+    <div className="p-4" style={{ 
+      backgroundColor: '#ff9d00',
+     }}>
+      <h2 className="mb-4">Panel de Devolución</h2>
       {saleItems.length === 0 ? (
         <p>No hay productos en este recibo para cambiar.</p>
       ) : (
@@ -36,7 +38,7 @@ const CambioDeProducto = () => {
             return (
               <li
                 key={item.id}
-                className="list-group-item d-flex justify-content-between align-items-center"
+                className="list-group-item d-flex justify-content-between align-items-center fs-4"
               >
                 <div>
                   <strong>{item.product.name}</strong> — ${item.unitPrice}
