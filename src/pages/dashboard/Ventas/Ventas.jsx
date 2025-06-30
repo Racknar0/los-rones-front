@@ -8,49 +8,28 @@ import SalePanel from '../../../components/ventas/panel/SalePanel';
 import './Ventas.scss';
 import Modal from '../../../components/modal/Modal';
 import ModalPerecedero from '../../../components/ventas/modalPerecedero/ModalPerecedero';
+import CambioDeProducto from '../../../components/ventas/cambioDeProducto/CambioDeProducto';
 
 const Ventas = () => {
     const httpService = new HttpService();
     const selectedStore = useStore((s) => s.selectedStore);
-
-    const totalCompra = useStore((state) => state.totalCompra);
-    const setTotalCompra = useStore((state) => state.setTotalCompra);
-
-    const totalCompraSinCupon = useStore((state) => state.totalCompraSinCupon);
-    const setTotalCompraSinCupon = useStore(
-        (state) => state.setTotalCompraSinCupon
-    );
-
-    const selectedCoupon = useStore((state) => state.selectedCoupon);
-
     const cartItems = useStore((state) => state.cartItems);
     const setCartItems = useStore((state) => state.setCartItems);
-
     const dataCambio = useStore((state) => state.dataCambio);
+    const returnedItems = useStore((state) => state.returnedItems);
+    const setReturnedItems = useStore((state) => state.setReturnedItems);
 
     const [productData, setProductData] = useState([]);
     const [loadingProducts, setLoadingProducts] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // const [cartItems, setCartItems]   = useState([]);
+    // const [returnedItems, setReturnedItems] = useState([]);
 
     const [showModal, setShowModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     // Para darle estilo al ultimo producto agregado al carrito
     const [lastAddedIndex, setLastAddedIndex] = useState(null);
-
-    useEffect(() => {
-        console.log('cartItems useEffect', cartItems);
-
-        // 1) subtotal sin descuentos
-        const base = cartItems.reduce(
-            (acc, item) => acc + (parseFloat(item.product.salePrice) || 0),
-            0
-        );
-        // setTotalCompraSinCupon(base);
-        // setTotalCompra(base);
-    }, [cartItems]);
 
     // — efecto: recarga al cambiar tienda —
     useEffect(() => {
@@ -173,12 +152,12 @@ const Ventas = () => {
     return (
         <div className="container-fluid mt-4 main_container">
             <h1 className="text-center mb-5">
-              {
-                dataCambio?.cambioActivo === true ? "Panel de Cambio" : "Panel de Ventas"
-              }
+                {dataCambio?.cambioActivo === true
+                    ? 'Panel de Cambio'
+                    : 'Panel de Ventas'}
             </h1>
             <div className="row bg-light">
-                <SaleSearch
+                {/* <SaleSearch
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
                     loadingProducts={loadingProducts}
@@ -187,7 +166,7 @@ const Ventas = () => {
                 />
 
                 {dataCambio?.cambioActivo === true ? (
-                    <div className="col-md-4 fs-3 fw-bold">Panel de cambio En construción...</div>
+                    <CambioDeProducto />
                 ) : (
                     <SalePanel
                         cartItems={cartItems}
@@ -195,6 +174,56 @@ const Ventas = () => {
                         lastAddedIndex={lastAddedIndex}
                         fetchProducts={fetchProducts}
                     />
+                )} */}
+
+                {dataCambio?.cambioActivo ? (
+                    <div className="d-flex flex-row">
+                        <div className="d-flex flex-column">
+                            {/* 1. Panel devolución: Marca los ítems a devolver */}
+                            <CambioDeProducto
+                                returnedItems={returnedItems}
+                                setReturnedItems={setReturnedItems}
+                            />
+
+                            {/* 2. Buscador reposición */}
+                            <SaleSearch
+                                searchTerm={searchTerm}
+                                setSearchTerm={setSearchTerm}
+                                loadingProducts={loadingProducts}
+                                filteredProducts={filteredProducts}
+                                handleSelectProduct={handleSelectProduct}
+                            />
+                        </div>
+
+                        {/* 3. Panel reposición: Lista de nuevos ítems */}
+                        <SalePanel
+                            cartItems={cartItems}
+                            onRemoveFromCart={handleRemoveFromCart}
+                            lastAddedIndex={lastAddedIndex}
+                            fetchProducts={fetchProducts}
+                        />
+                    </div>
+                ) : (
+                    <>
+                        {/* Venta normal: buscador + panel */}
+
+                        <div className="col-md-4">
+                            <SaleSearch
+                                searchTerm={searchTerm}
+                                setSearchTerm={setSearchTerm}
+                                loadingProducts={loadingProducts}
+                                filteredProducts={filteredProducts}
+                                handleSelectProduct={handleSelectProduct}
+                            />
+                        </div>
+
+                        <SalePanel
+                            cartItems={cartItems}
+                            onRemoveFromCart={handleRemoveFromCart}
+                            lastAddedIndex={lastAddedIndex}
+                            fetchProducts={fetchProducts}
+                        />
+                    </>
                 )}
             </div>
 

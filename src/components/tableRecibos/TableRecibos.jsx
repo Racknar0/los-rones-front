@@ -15,7 +15,6 @@ import { confirmAlert, successAlert } from '../../helpers/alerts';
 import { ReturnIcon } from '../icons/ReturnIcon';
 import { useNavigate } from 'react-router';
 
-
 const TableRecibos = () => {
     const httpService = new HttpService();
     const BACK_HOST = import.meta.env.VITE_BACK_HOST;
@@ -153,7 +152,7 @@ const TableRecibos = () => {
         );
         if (!confirm) return;
 
-        console.log('Devolviendo ticket:', recibo);
+        // console.log('Devolviendo ticket:', recibo);
 
         const datacambio = {
             cambioActivo: true,
@@ -161,8 +160,6 @@ const TableRecibos = () => {
         };
         setDataCambio(datacambio);
         navigate('/dashboard/ventas');
-
-
     };
 
     return (
@@ -201,6 +198,7 @@ const TableRecibos = () => {
                             <th># Ticket</th>
                             <th>Total</th>
                             <th>Método Pago</th>
+                            <th>Tipo</th>
                             <th>Fecha</th>
                             <th>Acciones</th>
                         </tr>
@@ -254,6 +252,11 @@ const TableRecibos = () => {
                                     <td
                                         className={r.isDeleted ? 'deleted' : ''}
                                     >
+                                        {r.type}
+                                    </td>
+                                    <td
+                                        className={r.isDeleted ? 'deleted' : ''}
+                                    >
                                         {new Date(r.createdAt).toLocaleString(
                                             'es-ES',
                                             {
@@ -266,7 +269,7 @@ const TableRecibos = () => {
                                     <td
                                         className={r.isDeleted ? 'deleted' : ''}
                                     >
-                                        {!r.isDeleted && (
+                                        {!r.isDeleted && r.type === 'venta' && (
                                             <span
                                                 role="button"
                                                 title="Cambiar Ticket"

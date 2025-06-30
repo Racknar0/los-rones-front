@@ -75,16 +75,16 @@ const menuConfig = {
         path: '/dashboard/listado-cortes',
         icon: <CorteIcon width={40} height={40} />,
     },
-    Apartados: {
-        roles: ['1'],
-        path: '/dashboard/apartados',
-        icon: <ApartadoIcon width={40} height={40} />,
-    },
-    'Cambio Tienda': {
-        roles: ['1'],
-        path: '/dashboard/cambio-tienda',
-        icon: <CambioIcon width={40} height={40} />,
-    },
+    // Apartados: {
+    //     roles: ['1'],
+    //     path: '/dashboard/apartados',
+    //     icon: <ApartadoIcon width={40} height={40} />,
+    // },
+    // 'Cambio Tienda': {
+    //     roles: ['1'],
+    //     path: '/dashboard/cambio-tienda',
+    //     icon: <CambioIcon width={40} height={40} />,
+    // },
 };
 
 const Sidebar = ({ toggled, setToggled, setBroken }) => {

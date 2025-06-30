@@ -146,6 +146,7 @@ const TableDashboard = ({
               <th># Ticket</th>
               <th>Total</th>
               <th>Método Pago</th>
+              <th>Tipo</th>
               <th>Fecha</th>
               <th>Ticket</th>
             </tr>
@@ -179,6 +180,7 @@ const TableDashboard = ({
                   <td>{r.ticketNumber}</td>
                   <td>${parseFloat(r.totalAmount).toFixed(2)}</td>
                   <td>{r.paymentMethod}</td>
+                  <td>{r.type}</td>
                   <td>
                     {new Date(r.createdAt).toLocaleString('es-ES', {
                       dateStyle: 'short',

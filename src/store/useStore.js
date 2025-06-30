@@ -28,6 +28,7 @@ const useStore = create(
     tipoPago: '',
     cupones: [],
     dataCambio: null, 
+    returnedItems: [], // Para manejar los productos devueltos
     
     // Funciones
     setLoading: (value) => set({ loading: value }),
@@ -106,6 +107,10 @@ const useStore = create(
 
     setDataCambio: (data) => {
       set({ dataCambio: data });
+    },
+
+    setReturnedItems: (items) => {
+      set({ returnedItems: items });
     },
 
 

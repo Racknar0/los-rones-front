@@ -170,8 +170,8 @@ const Cortes = () => {
                 </div>
 
                 <div className="cortes_content_item">
-                    <h2>Ingreso Cambios Internos Total</h2>
-                    <p>$ 0</p>
+                    <h2>Ingreso Cambios</h2>
+                    <p>{data.ingresoInterno ? `$ ${data.ingresoInterno}` : '$ 0'}</p>
                 </div>
 
                 <div className="cortes_content_item">

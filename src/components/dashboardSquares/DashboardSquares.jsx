@@ -35,27 +35,31 @@ const DashboardSquares = ({ dataSales }) => {
     .filter(s => s.paymentMethod === 'tarjeta')
     .reduce((sum, sale) => sum + toNumber(sale.totalAmount), 0);
 
-  // 5) TOTAL TRANSFERENCIAS (antes "OTRO")
+  // 5) TOTAL TRANSFERENCIAS
   const totalTransferencias = sales
     .filter(s => s.paymentMethod === 'transferencia')
     .reduce((sum, sale) => sum + toNumber(sale.totalAmount), 0);
 
-  // 6) TOTAL CAMBIOS (siempre cero)
-  const totalCambios = 0;
+  // 🍊 6) TOTAL CAMBIOS = suma de totalAmount de ventas de tipo "cambio"
+  const totalCambios = sales
+    .filter(s => s.type === 'cambio')
+    .reduce((sum, sale) => sum + toNumber(sale.totalAmount), 0);
 
-  // 7) TOTAL COSTO = suma de purchasePrice de cada producto vendido
-  const totalCosto = sales.reduce((sumSale, sale) => {
-    const subtotal = (sale.saleItems || []).reduce(
-      (sumItem, it) => sumItem + toNumber(it.product.purchasePrice),
-      0
-    );
-    return sumSale + subtotal;
-  }, 0);
+  // 7) TOTAL COSTO SOLO DE LAS VENTAS NORMALES (excluye los cambios)
+  const totalCostoVentas = sales
+    .filter(s => s.type === 'venta')
+    .reduce((sumSale, sale) => {
+      const subtotal = (sale.saleItems || []).reduce(
+        (sumItem, it) => sumItem + toNumber(it.product.purchasePrice),
+        0
+      );
+      return sumSale + subtotal;
+    }, 0);
 
-  // 8) TOTAL GANANCIAS = totalVentas - totalCosto
-  const totalGanancias = totalVentas - totalCosto;
+  // 8) TOTAL GANANCIAS = totalVentas - totalCostoVentas
+  const totalGanancias = totalVentas - totalCostoVentas;
 
-  // 9) TOTAL TICKETS = cantidad de ventas
+  // 9) TOTAL TICKETS = cantidad de ventas (incluye cambios si quieres)
   const totalTickets = sales.length;
 
   // Array de métricas dinámico
@@ -66,8 +70,8 @@ const DashboardSquares = ({ dataSales }) => {
     { title: 'TOTAL EFECTIVO', value: formatCurrency(totalEfectivo) },
     { title: 'TOTAL TARJETA', value: formatCurrency(totalTarjeta) },
     { title: 'TOTAL TRANSFERENCIAS', value: formatCurrency(totalTransferencias) },
-    { title: 'TOTAL CAMBIOS', value: formatCurrency(totalCambios) },
-    { title: 'TOTAL COSTO', value: formatCurrency(totalCosto) },
+    { title: 'TOTAL CAMBIOS', value: formatCurrency(totalCambios) },   // 🍊
+    { title: 'TOTAL COSTO', value: formatCurrency(totalCostoVentas) }, // ajustado
     { title: 'TOTAL GANANCIAS', value: formatCurrency(totalGanancias) },
   ];
 

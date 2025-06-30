@@ -54,7 +54,7 @@ const SaleSearch = ({
   }
 
   return (
-      <div className="col-md-4 border-end buscador_container">
+      <div className=" border-end buscador_container">
           <button className="btn_open_coupons" onClick={() => {setShowModal(true)}}>
             🏷️ Ver cupones
           </button>
