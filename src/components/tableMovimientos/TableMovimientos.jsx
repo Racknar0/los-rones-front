@@ -122,22 +122,26 @@ const TableMovimientos = () => {
   const exportarMovimientos = () => {
     // 1) Prepara las filas basadas en filteredMovimientos
     const rows = filteredMovimientos.map(mov => {
+
+
+      console.log('Movimiento:', mov);
+
       return {
         Acción:      mov.action,
         Tienda:      mov.store?.name || '',
         Producto:    mov.product?.name || '',
+        Precio_Compra: mov.product?.purchasePrice || 0,
+        Precio_Venta: mov.product?.salePrice || 0,
         Usuario:     mov.user?.user || '',
-        Fecha:       new Date(mov.createdAt).toLocaleString('es-ES', {
-                       dateStyle: 'short',
-                       timeStyle: 'short',
-                       hour12: false
-                     })
+        Fecha:       new Date(mov.createdAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short', hour12: false })
       };
     });
 
+    console.log('Exportando movimientos:', rows);
+
     // 2) Crea la hoja y el libro
     const worksheet = XLSX.utils.json_to_sheet(rows, {
-      header: ['Acción', 'Tienda', 'Producto', 'Usuario', 'Fecha']
+      header: ['Acción', 'Tienda', 'Producto', 'Precio_Compra', 'Precio_Venta', 'Usuario', 'Fecha'],
     });
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Movimientos');
