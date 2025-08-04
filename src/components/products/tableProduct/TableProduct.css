@@ -1,0 +1,28 @@
+.table_container {
+  overflow-x: auto;
+  width: 100%;
+  min-height: 150px;
+  margin-top: 10px;
+}
+.table_container .form_buscador {
+  font-size: 1.6rem;
+  max-width: 600px;
+}
+.table_container .btn-exportar {
+  max-width: 300px;
+  height: 35px;
+  font-size: 1.6rem;
+  margin-top: 1rem;
+}
+.table_container .table {
+  min-width: 1150px;
+}
+.table_container .table td,
+.table_container .table th {
+  vertical-align: middle;
+}
+.table_container .table .spinner_container {
+  height: 100px;
+  width: 100px;
+  margin: 0 auto;
+}/*# sourceMappingURL=TableProduct.css.map */

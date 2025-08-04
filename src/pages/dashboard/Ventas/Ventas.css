@@ -1,0 +1,13 @@
+.main_container .modal {
+  display: flex !important;
+  align-items: center !important;
+}
+.main_container .modal .modal-dialog {
+  z-index: 10 !important;
+}
+.main_container .modal .modal-backdrop {
+  z-index: 9 !important;
+}
+.main_container .modal .modal-content {
+  z-index: 10s !important;
+}/*# sourceMappingURL=Ventas.css.map */

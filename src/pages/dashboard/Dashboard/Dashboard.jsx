@@ -23,31 +23,37 @@ const Dashboard = () => {
   const [dataSales, setDataSales] = useState([]);
 
   const exportarVentas = () => {
-    // 1) Prepara las filas
-    
     const rows = [];
     dataSales.forEach(sale => {
       sale.saleItems.forEach(item => {
-        const precioFinal = parseFloat(item.unitPrice);
-        const costo       = parseFloat(item.product.purchasePrice);
         rows.push({
-          Ticket:       sale.id,
-          Producto:     item.product.name,
-          Precio_Final: precioFinal,
-          Costo:        costo,
-          Dif:          precioFinal - costo,
+          Ticket: sale.ticketNumber,
+          Fecha: new Date(sale.createdAt).toLocaleDateString('es-MX'), // solo fecha
+          Sucursal: sale.store?.name || '',
+          Usuario: sale.user?.name || '',
+          'Metodo Pago': sale.paymentMethod,
+          'Total Ticket': parseFloat(sale.totalAmount).toFixed(2),
+          Producto: item.product.name,
+          'Codigo Producto': item.product.code || '',
+          Impuesto: item.product.hasTax ? 'Sí' : 'No',
+          Costo: parseFloat(item.product.purchasePrice).toFixed(2),
+          'Precio Publico': parseFloat(item.product.salePrice).toFixed(2),
+          'Vendido Por': item.sellwhitcoupon ? parseFloat(item.sellwhitcoupon).toFixed(2) : '',
+          Cupón: item.itemCouponCode || '',
+          'Descuento': item.couponDiscountValue !== undefined ? item.couponDiscountValue : '',
         });
       });
     });
 
-    // 2) Crea la hoja y el libro
     const worksheet = XLSX.utils.json_to_sheet(rows, {
-      header: ['Ticket','Producto','Precio_Final','Costo','Dif']
+      header: [
+        'Ticket', 'Fecha', 'Sucursal', 'Usuario', 'Metodo Pago', 'Total Ticket',
+        'Producto', 'Codigo Producto', 'Impuesto', 'Costo', 'Precio Publico', 'Vendido Por', 'Cupón', 'Descuento'
+      ]
     });
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Ventas');
 
-    // 3) Genera el buffer y dispara la descarga
     const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     const blob = new Blob([wbout], { type: 'application/octet-stream' });
     saveAs(blob, `ventas_${new Date().toISOString().slice(0,10)}.xlsx`);

@@ -1,0 +1,30 @@
+.main_container .modal {
+  display: flex !important;
+  align-items: center !important;
+}
+.main_container .modal .modal-dialog {
+  z-index: 10 !important;
+}
+.main_container .modal .modal-backdrop {
+  z-index: 9 !important;
+}
+.main_container .modal .modal-content {
+  z-index: 10s !important;
+}
+.main_container .exportar_btn {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 15px 2px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+}
+.main_container .exportar_btn:hover {
+  background-color: #295c2b;
+}/*# sourceMappingURL=Stock.css.map */

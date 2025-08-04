@@ -1,0 +1,7 @@
+@charset "UTF-8";
+/* Aumenta el padding en los th y td para mayor separación */
+.table th,
+.table td {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}/*# sourceMappingURL=StockTable.css.map */

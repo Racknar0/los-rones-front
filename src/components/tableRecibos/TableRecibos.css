@@ -1,0 +1,49 @@
+/* src/components/TableRecibos/TableRecibos.scss */
+.tableRecibos .date-picker-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.tableRecibos .calendar-popover {
+  position: absolute;
+  top: 2.5rem;
+  z-index: 1000;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+.tableRecibos .btn-range {
+  background-color: #6564d8;
+  border: 1px solid #6564d8;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+  margin-bottom: 1rem;
+}
+.tableRecibos .btn-range:hover, .tableRecibos .btn-range:focus {
+  background-color: #5750b8;
+  border-color: #5750b8;
+  outline: none;
+}
+.tableRecibos .btn-range:active {
+  background-color: #4c47a3;
+  border-color: #4c47a3;
+}
+.tableRecibos .btn-range:disabled {
+  background-color: #a5a0d8;
+  border-color: #a5a0d8;
+  cursor: not-allowed;
+}
+.tableRecibos .modal .chip {
+  font-size: 1.6rem;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  background-color: #e2e6ea;
+  border-radius: 5px;
+  color: #343a40;
+}
+.tableRecibos table tbody tr td.deleted {
+  background-color: rgba(255, 0, 0, 0.233);
+}/*# sourceMappingURL=TableRecibos.css.map */

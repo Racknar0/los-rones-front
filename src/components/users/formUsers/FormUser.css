@@ -1,0 +1,32 @@
+.form_main_container {
+  margin-top: 30px !important;
+}
+.form_main_container form label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+}
+.form_main_container form input, .form_main_container form select {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  max-width: 100%;
+  border-radius: 5px;
+  border: 1px solid #E0E0E0 !important;
+  height: 35px;
+}
+.form_main_container form .btn_submit {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  background-color: #3F51B5 !important;
+  color: #FFFFFF !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  border-radius: 5px !important;
+}/*# sourceMappingURL=FormUser.css.map */

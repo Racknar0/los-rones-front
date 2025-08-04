@@ -1,0 +1,23 @@
+.main_container {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+.main_container .nav {
+  margin-bottom: 20px;
+}
+.main_container .nav .nav-item .nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  transition: background-color 0.3s ease;
+}
+.main_container .nav .nav-item .nav-link:hover {
+  background-color: #e2e6ea;
+}
+.main_container .nav .nav-item .nav-link.active {
+  background-color: #6564d8;
+  color: #ffffff;
+}/*# sourceMappingURL=Usuarios.css.map */

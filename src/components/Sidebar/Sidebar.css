@@ -1,0 +1,54 @@
+.sidebar_header {
+  padding: 15px 5px;
+}
+.sidebar_header .input_group {
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.sidebar_footer {
+  max-width: 140px;
+  margin: 0 auto;
+  display: none;
+}
+@media only screen and (min-width: 768px) {
+  .sidebar_footer {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    bottom: 50px;
+  }
+}
+.sidebar_footer .sidebar_footer_logo_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.sidebar_footer .sidebar_footer_logo_container img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.sidebar_footer p {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #f8f8f8;
+  text-align: center;
+}
+
+.collapse_btn {
+  background-color: #6564d8;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  bottom: 40px;
+  right: 15px;
+}
+.collapse_btn:hover {
+  color: #00ffe1;
+}/*# sourceMappingURL=Sidebar.css.map */

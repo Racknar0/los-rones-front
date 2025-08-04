@@ -1,0 +1,131 @@
+.container_layout {
+  display: flex;
+  flex-direction: column;
+}
+.container_layout .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #6564d8;
+  height: 80px;
+  border-bottom: 2px solid #fff;
+}
+.container_layout .header .header_title_container {
+  border-right: 2px solid #fff;
+  width: 250px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media only screen and (max-width: 768px) {
+  .container_layout .header .header_title_container {
+    width: 150px;
+    display: none;
+  }
+}
+.container_layout .header .header_title_container .header_title {
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin: 0;
+  font-family: "Luckiest Guy", cursive;
+}
+@media only screen and (max-width: 768px) {
+  .container_layout .header .header_title_container .header_title {
+    font-size: 1.5rem;
+  }
+}
+.container_layout .header .header_user_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media only screen and (max-width: 768px) {
+  .container_layout .header .header_user_container {
+    margin-left: 20px;
+  }
+}
+.container_layout .header .header_user_container .image_logouser_container {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+  border: 2px solid #ffffff;
+  background-color: #ffffff;
+}
+.container_layout .header .header_user_container .image_logouser_container img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.container_layout .header .header_user_container .user_info_container {
+  text-align: center;
+  margin-top: 0px;
+  color: #fff;
+  font-size: 1.4rem;
+  font-family: "poppins", sans-serif;
+}
+.container_layout .header .header_user_container .user_info_container p {
+  margin: 0;
+  text-align: start;
+  margin-left: 10px;
+}
+.container_layout .header .header_user_container .user_info_container .user_name_container p {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.container_layout .header .header_user_container .user_info_container .user_role_container p {
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+.container_layout .header .header_right_container {
+  display: flex;
+}
+.container_layout .header .header_right_container .logout_btn {
+  background-color: #fff;
+  color: #6564d8;
+  border: none;
+  border-radius: 5px;
+  height: 30px;
+  width: 100px;
+  cursor: pointer;
+  font-size: 1.4rem;
+  margin-right: 20px;
+  font-family: "Luckiest Guy", cursive;
+}
+.container_layout .header .header_right_container .logout_btn:hover {
+  background-color: #6564d8;
+  color: #fff;
+  border: 2px solid #fff;
+}
+.container_layout .header .header_right_container .bnt_toggle {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-right: 20px;
+  background-color: #6564d8;
+}
+.container_layout .header .header_right_container .bnt_toggle:hover {
+  background-color: #6564d8;
+}
+.container_layout .header .header_right_container .bnt_toggle .collapse_icon {
+  color: #fff;
+  font-size: 2rem;
+}
+.container_layout .header .header_right_container .bnt_toggle .collapse_icon:hover {
+  transform: scale(1.2);
+}
+.container_layout .main_wrapper {
+  display: flex;
+  height: calc(100vh - 60px);
+}
+.container_layout .main_wrapper .main_content {
+  width: 100%;
+  padding: 20px;
+  font-size: 1.6rem;
+  overflow-x: auto;
+}/*# sourceMappingURL=Layout.css.map */

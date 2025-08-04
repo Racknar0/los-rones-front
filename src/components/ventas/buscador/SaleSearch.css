@@ -1,0 +1,194 @@
+@charset "UTF-8";
+.buscador_container {
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  min-height: 100vh;
+}
+.buscador_container .spinner_container_btn {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+}
+.buscador_container .btn_open_coupons {
+  background-color: #6564d8;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 1.3rem;
+  width: 100%;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.buscador_container .btn_open_coupons:hover {
+  background-color: rgba(75, 82, 178, 0.7450980392);
+}
+.buscador_container h5 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+.buscador_container .form_buscador {
+  font-size: 1.6rem;
+}
+.buscador_container .list-group {
+  margin-top: 10px;
+  max-height: 7cqb;
+  overflow-y: auto;
+  max-height: 700px;
+}
+.buscador_container .list-group .spinner_container {
+  min-height: 100px;
+}
+.buscador_container .list-group .list-group-item {
+  font-size: 1.6rem;
+  transition: background-color 0.3s ease;
+  padding: 0;
+  padding-left: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  display: flex;
+  cursor: default !important;
+  position: relative;
+}
+.buscador_container .list-group .list-group-item:hover {
+  background-color: #e2e6ea;
+}
+.buscador_container .list-group .list-group-item.active {
+  background-color: #6564d8;
+  color: white;
+  border: 1px solid #6564d8;
+}
+.buscador_container .list-group .list-group-item p {
+  margin: 0;
+  font-size: 1.3rem;
+}
+.buscador_container .list-group .list-group-item .left {
+  width: 90%;
+}
+.buscador_container .list-group .list-group-item .left .name_text {
+  margin-bottom: 4px;
+}
+.buscador_container .list-group .list-group-item .left .name_text .chip {
+  font-size: 1.2rem;
+  margin-left: 5px;
+  padding: 0 5px;
+  border-radius: 5px;
+  background-color: #caac00;
+  color: #000000;
+  font-weight: normal !important;
+}
+.buscador_container .list-group .list-group-item .right {
+  width: 10%;
+}
+.buscador_container .list-group .list-group-item .right .color_stock {
+  width: 10px;
+  height: 10px;
+  margin-left: auto;
+  border-radius: 50%;
+  margin-right: 3px;
+}
+.buscador_container .list-group .list-group-item .right .color_stock.high {
+  background-color: #28a745;
+  color: white;
+}
+.buscador_container .list-group .list-group-item .right .color_stock.medium {
+  background-color: #ffc107;
+  color: black;
+}
+.buscador_container .list-group .list-group-item .right .color_stock.low {
+  background-color: #dc3545;
+  color: white;
+}
+.buscador_container .list-group .list-group-item .btn_add_container {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+}
+@media (min-width: 400px) {
+  .buscador_container .list-group .list-group-item .btn_add_container {
+    right: 40px;
+  }
+}
+@media (min-width: 400px) {
+  .buscador_container .list-group .list-group-item .btn_add_container {
+    right: 5px;
+    bottom: 10px;
+  }
+}
+.buscador_container .list-group .list-group-item .btn_add_container .btn_add {
+  background-color: #f0f0f0;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.buscador_container .list-group .list-group-item .btn_add_container .btn_add:hover {
+  background-color: rgba(75, 82, 178, 0.7450980392);
+}
+
+/* ────── Modal – Cupones ────── */
+.cupones_container {
+  display: grid;
+  gap: 1.5rem;
+  max-height: 55vh;
+  overflow-y: auto;
+  padding: 18px;
+  /* mini scroll discreto */
+}
+.cupones_container::-webkit-scrollbar {
+  width: 6px;
+}
+.cupones_container::-webkit-scrollbar-thumb {
+  background: #b9b9ff;
+  border-radius: 4px;
+}
+
+.cupon {
+  position: relative;
+  background: #fff;
+  border-left: 6px solid #6564d8;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+  transition: transform 0.15s;
+  /* etiqueta de descuento “‑10 %” en la esquina */
+}
+.cupon:hover {
+  transform: translateY(-2px);
+}
+.cupon::after {
+  content: attr(data-discount) "%";
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #caac00;
+  color: #000;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 3px 6px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+.cupon p {
+  margin: 0 0 4px;
+  font-size: 1.4rem;
+}
+.cupon p:last-child {
+  margin-bottom: 0;
+}
+.cupon p.text {
+  font-weight: 500;
+  word-break: break-word;
+}
+
+/* Si quieres un footer limpio sin borde ni fondo */
+.modal-footer {
+  border-top: none;
+  background: transparent;
+  padding: 0 1.5rem 1.5rem;
+}/*# sourceMappingURL=SaleSearch.css.map */

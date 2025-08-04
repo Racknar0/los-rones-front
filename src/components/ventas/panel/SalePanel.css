@@ -1,0 +1,40 @@
+.sale_panel_container {
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  max-width: 800px !important;
+}
+.sale_panel_container .coupon_table {
+  width: 100%;
+}
+.sale_panel_container .coupon_table thead tr .th_coupon_body {
+  display: flex !important;
+  justify-content: center;
+}
+.sale_panel_container .coupon_table tbody tr.table_row.highlight {
+  --bs-table-accent-bg: #6564d8;
+  --bs-table-accent-bg-hover: #6564d8;
+  color: white;
+}
+.sale_panel_container .coupon_table tbody td .delete_icon {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 2rem;
+  color: #ff0000;
+  transition: color 0.3s ease;
+}
+.sale_panel_container .coupon_table tbody td .delete_icon:hover {
+  color: #5a5b9d;
+  transform: scale(1.1);
+}
+
+.before_coupon {
+  font-size: 1.6rem;
+  color: #ff0000;
+  margin-right: 5px;
+  font-weight: 600;
+  text-decoration: line-through;
+  margin-right: 5px;
+}/*# sourceMappingURL=SalePanel.css.map */

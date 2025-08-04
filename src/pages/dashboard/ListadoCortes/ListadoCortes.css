@@ -1,0 +1,42 @@
+.listadoCortes .date-picker-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.listadoCortes .date-picker-wrapper .btn-range {
+  background-color: #6564d8;
+  border: 1px solid #6564d8;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  width: 50%;
+  max-width: 300px;
+  font-size: 1.6rem;
+}
+.listadoCortes .date-picker-wrapper .btn-range:hover, .listadoCortes .date-picker-wrapper .btn-range:focus {
+  background-color: #5750b8;
+  border-color: #5750b8;
+  outline: none;
+}
+.listadoCortes .date-picker-wrapper .btn-range:active {
+  background-color: #4c47a3;
+  border-color: #4c47a3;
+}
+.listadoCortes .date-picker-wrapper .btn-range:disabled {
+  background-color: #a5a0d8;
+  border-color: #a5a0d8;
+  cursor: not-allowed;
+}
+.listadoCortes .date-picker-wrapper .calendar-popover {
+  position: absolute;
+  top: 2.5rem;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+.listadoCortes table th,
+.listadoCortes table td {
+  vertical-align: middle;
+}/*# sourceMappingURL=ListadoCortes.css.map */
