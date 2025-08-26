@@ -3,6 +3,8 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import TableDashboard from '../../../components/tableDashboard/TableDashboard';
 import DashboardSquares from '../../../components/dashboardSquares/DashboardSquares';
+import ExpirationsByStore from '../../../components/dashboardSquares/ExpirationsByStore';
+import HttpService from '../../../services/HttpService';
 import './Dashboard.scss';
 import useStore from '../../../store/useStore';
 import { useNavigate } from 'react-router';
@@ -59,6 +61,28 @@ const Dashboard = () => {
     saveAs(blob, `ventas_${new Date().toISOString().slice(0,10)}.xlsx`);
   };
 
+  // Estado para expiraciones reales por tienda
+  const [storesExpirations, setStoresExpirations] = useState([]);
+  const [loadingExpirations, setLoadingExpirations] = useState(true);
+
+  useEffect(() => {
+    const fetchExpirations = async () => {
+      setLoadingExpirations(true);
+      try {
+        const httpService = new HttpService();
+        const res = await httpService.getData('/product/expiring-perishables-by-store');
+        if (res.status === 200) {
+          setStoresExpirations(res.data);
+        }
+      } catch (err) {
+        setStoresExpirations([]);
+      } finally {
+        setLoadingExpirations(false);
+      }
+    };
+    fetchExpirations();
+  }, []);
+
   return (
     <div>
       <h1 className="mb-4">Dashboard</h1>
@@ -68,6 +92,12 @@ const Dashboard = () => {
           Exportar Ventas
         </button>
       </div>
+      {/* Cajas de productos próximos a vencer por tienda */}
+      {loadingExpirations ? (
+        <div className="text-center my-4">Cargando productos próximos a vencer...</div>
+      ) : (
+        <ExpirationsByStore storesExpirations={storesExpirations} />
+      )}
       <TableDashboard setDataSales={setDataSales}/>
     </div>
   );
