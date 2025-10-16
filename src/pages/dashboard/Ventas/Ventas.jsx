@@ -5,6 +5,7 @@ import { errorAlert } from '../../../helpers/alerts';
 import useStore from '../../../store/useStore';
 import SaleSearch from '../../../components/ventas/buscador/SaleSearch';
 import SalePanel from '../../../components/ventas/panel/SalePanel';
+import BarcodeScanner from '../../../components/ventas/barcodeScanner/BarcodeScanner';
 import './Ventas.scss';
 import Modal from '../../../components/modal/Modal';
 import ModalPerecedero from '../../../components/ventas/modalPerecedero/ModalPerecedero';
@@ -131,6 +132,14 @@ const Ventas = () => {
         setSelectedProduct(product); // Guardar el producto perecedero seleccionado
     };
 
+    // Función para manejar productos encontrados por código de barras
+    const handleBarcodeProduct = (product) => {
+        if (product.perishable) {
+            return handleSelectPerecedero(product);
+        }
+        return handleSelectProduct(product);
+    };
+
     // — quita del carrito según stockUnitId único —
     const handleRemoveFromCart = (unit) => {
         // Remover el stock unit del carrito
@@ -174,7 +183,7 @@ const Ventas = () => {
                         lastAddedIndex={lastAddedIndex}
                         fetchProducts={fetchProducts}
                     />
-                )} */}
+                ) */}
 
                 {dataCambio?.cambioActivo ? (
                     <div className="d-flex flex-row">
@@ -205,7 +214,16 @@ const Ventas = () => {
                     </div>
                 ) : (
                     <>
-                        {/* Venta normal: buscador + panel */}
+                        {/* Venta normal: escáner + buscador + panel */}
+                        
+                        {/* Escáner de códigos de barras */}
+                        <div className="col-12">
+                            <BarcodeScanner 
+                                onProductFound={handleBarcodeProduct}
+                                productData={productData}
+                                setProductData={setProductData}
+                            />
+                        </div>
 
                         <div className="col-md-4">
                             <SaleSearch

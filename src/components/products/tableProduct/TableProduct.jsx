@@ -68,7 +68,7 @@ const TableProduct = ({
   };
 
   // ----------------------------------------------------
-  // Filtrar productos según searchTerm (categoría, nombre o código)
+  // Filtrar productos según searchTerm (categoría, nombre, código o código de barras)
   // ----------------------------------------------------
   const filteredProducts = (productData || []).filter((u) => {
     const term = searchTerm.trim().toLowerCase();
@@ -76,7 +76,8 @@ const TableProduct = ({
     return (
       u.category?.name.toLowerCase().includes(term) ||
       u.name.toLowerCase().includes(term) ||
-      u.code.toLowerCase().includes(term)
+      u.code.toLowerCase().includes(term) ||
+      (u.barcode && u.barcode.toLowerCase().includes(term))
     );
   });
 
@@ -89,6 +90,7 @@ const TableProduct = ({
       Categoría:  u.category?.name || '',
       Nombre:     u.name || '',
       Código:     u.code || '',
+      'Código de Barras': u.barcode || '',
       'Precio Compra': u.purchasePrice != null ? u.purchasePrice : '',
       'Precio Venta':  u.salePrice != null ? u.salePrice : '',
       Perecedero: u.perishable === true ? 'Sí' : 'No',
@@ -127,7 +129,7 @@ const TableProduct = ({
           <input
             type="text"
             className="form-control form_buscador"
-            placeholder="🔎 Buscar por categoría, nombre o código..."
+            placeholder="🔎 Buscar por categoría, nombre, código o código de barras..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -151,6 +153,7 @@ const TableProduct = ({
             <th>Categoría</th>
             <th>Nombre</th>
             <th>Código</th>
+            <th>Código de Barras</th>
             {['Admin', 'Moderador'].includes(role) && <th>$ Compra</th>}
             <th>$ Venta</th>
             <th>Perecedero</th>
@@ -199,6 +202,15 @@ const TableProduct = ({
                 <td>{u.category?.name || 'No disponible'}</td>
                 <td>{u.name || 'No disponible'}</td>
                 <td>{u.code || 'No disponible'}</td>
+                <td>
+                  {u.barcode ? (
+                    <span className="badge bg-secondary" style={{ fontFamily: 'monospace' }}>
+                      {u.barcode}
+                    </span>
+                  ) : (
+                    <span className="text-muted">Sin código</span>
+                  )}
+                </td>
                 {['Admin', 'Moderador'].includes(role) && (
                   <td>{u.purchasePrice ?? 'No disponible'}</td>
                 )}

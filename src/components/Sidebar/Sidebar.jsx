@@ -11,6 +11,7 @@ import { SellIcon } from '../icons/SellIcon';
 import { ApartadoIcon } from '../icons/ApartadoIcon';
 import { CambioIcon } from '../icons/CambioIcon';
 import { ChevronLeftIcon } from '../icons/ChevronLeftIcon';
+import { BarcodeIcon } from '../icons/BarcodeIcon';
 import logoLogin from '../../assets/logo-login.png';
 import useStore from '../../store/useStore';
 import './Sidebar.scss';
@@ -74,6 +75,11 @@ const menuConfig = {
         roles: ['1', '2'],
         path: '/dashboard/listado-cortes',
         icon: <CorteIcon width={40} height={40} />,
+    },
+    'Códigos de Barras': {
+        roles: ['1', '2'],
+        path: '/dashboard/codigos-barras',
+        icon: <BarcodeIcon width={40} height={40} />,
     },
     // Apartados: {
     //     roles: ['1'],

@@ -25,6 +25,7 @@ const FormProduct = ({
     const [product, setProduct] = useState({
         name: '',
         code: '',
+        barcode: '',
         categoryId: '',
         purchasePrice: '',
         salePrice: '',
@@ -40,6 +41,7 @@ const FormProduct = ({
             const {
                 name,
                 code,
+                barcode,
                 categoryId,
                 purchasePrice,
                 salePrice,
@@ -49,6 +51,7 @@ const FormProduct = ({
             setProduct({
                 name,
                 code,
+                barcode: barcode || '',
                 categoryId,
                 purchasePrice,
                 salePrice,
@@ -101,6 +104,9 @@ const FormProduct = ({
         // Agrega el resto de los campos
         formData.append('name', product.name);
         formData.append('code', product.code);
+        if (product.barcode) {
+            formData.append('barcode', product.barcode);
+        }
         formData.append('categoryId', product.categoryId);
         formData.append('purchasePrice', product.purchasePrice);
         formData.append('salePrice', product.salePrice);
@@ -147,6 +153,24 @@ const FormProduct = ({
             console.error('Error:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const generateBarcode = async () => {
+        try {
+            const response = await httpService.getData('/product/generate-barcode');
+            if (response.status === 200) {
+                setProduct((prev) => ({
+                    ...prev,
+                    barcode: response.data.barcode
+                }));
+                successAlert('Éxito', 'Código de barras generado automáticamente');
+            } else {
+                errorAlert('Error', 'No se pudo generar el código de barras');
+            }
+        } catch (error) {
+            console.error('Error al generar código de barras:', error);
+            errorAlert('Error', 'No se pudo generar el código de barras');
         }
     };
 
@@ -254,6 +278,31 @@ const FormProduct = ({
                         accept="image/*"
                         onChange={handleImageChange}
                     />
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Código de Barras</label>
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="barcode"
+                            value={product.barcode}
+                            onChange={handleChange}
+                            placeholder='Código de barras (opcional)'
+                        />
+                        <button
+                            type="button"
+                            className="btn btn-outline-secondary"
+                            onClick={generateBarcode}
+                            title="Generar código de barras automático"
+                        >
+                            🔢 Generar
+                        </button>
+                    </div>
+                    <small className="form-text text-muted">
+                        Si no proporcionas un código de barras, puedes generarlo automáticamente
+                    </small>
                 </div>
 
                 {!loading ? (

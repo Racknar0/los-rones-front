@@ -17,6 +17,7 @@ import CambioTienda from '../pages/dashboard/CambioTienda/CambioTienda'
 import Stock from '../pages/dashboard/Stock/Stock'
 import Movimientos from '../pages/dashboard/Movimientos/Movimientos'
 import ListadoCortes from '../pages/dashboard/ListadoCortes/ListadoCortes'
+import BarcodeManager from '../pages/dashboard/BarcodeManager/BarcodeManager'
 
 const AppRoutes = () => {
   
@@ -40,6 +41,7 @@ const AppRoutes = () => {
         <Route path="apartados" element={<PrivateRoute element={<Apartados />} />} />
         <Route path="cambio-tienda" element={<PrivateRoute element={<CambioTienda />} />} />
         <Route path="listado-cortes" element={<PrivateRoute element={<ListadoCortes />} />} />
+        <Route path="codigos-barras" element={<PrivateRoute element={<BarcodeManager />} />} />
         {/* Otras rutas pueden ser agregadas aquí */}
       </Route>
 
