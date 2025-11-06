@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './StockTable.scss'; // Asegúrate de tener tus estilos
 
 const StockTable = ({
@@ -6,7 +6,12 @@ const StockTable = ({
   selectedStockIds,
   setSelectedStockIds,
   toggleStockSelection,
+  onEditExpiration, // nueva prop
 }) => {
+  const [editingId, setEditingId] = useState(null);
+  const [tempDate, setTempDate] = useState('');
+  const [saving, setSaving] = useState(false);
+
   // Ordenar stockUnits por createdAt en orden ascendente (las más antiguas primero)
   const sortedStockUnits = [...stockUnits].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -34,6 +39,36 @@ const StockTable = ({
     });
   };
 
+  const toInputDate = (dateString) => {
+    if (!dateString) return '';
+    const d = new Date(dateString);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  const startEdit = (stock) => {
+    setEditingId(stock.id);
+    setTempDate(toInputDate(stock.expirationDate));
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setTempDate('');
+  };
+
+  const saveEdit = async (id) => {
+    if (!onEditExpiration) return;
+    setSaving(true);
+    try {
+      await onEditExpiration(id, tempDate);
+      cancelEdit();
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="modal-body">
       {sortedStockUnits.length === 0 ? (
@@ -59,7 +94,7 @@ const StockTable = ({
               <th>Tienda</th>
               <th>Fecha de Vencimiento</th>
               <th>Fecha de Creación</th>
-              {/* <th>Acción</th> */}
+              <th>Acción</th>
             </tr>
           </thead>
           <tbody>
@@ -76,22 +111,46 @@ const StockTable = ({
                 <td>{index + 1}</td>
                 <td>{stock.store?.name}</td>
                 <td>
-                  {stock.expirationDate
-                    ? formatLocaleDate(stock.expirationDate)
-                    : 'N/A'}
+                  {editingId === stock.id ? (
+                    <div className="d-flex align-items-center gap-2">
+                      <input
+                        type="date"
+                        className="form-control form-control-sm"
+                        value={tempDate}
+                        onChange={(e) => setTempDate(e.target.value)}
+                      />
+                    </div>
+                  ) : stock.expirationDate ? (
+                    formatLocaleDate(stock.expirationDate)
+                  ) : (
+                    'N/A'
+                  )}
                 </td>
                 <td>{formatLocaleDateTime(stock.createdAt)}</td>
-                {/* <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={async () => {
-                      // Aquí integras la eliminación individual (por ejemplo, usando httpService.deleteData)
-                      console.log(`Eliminar stock unit ${stock.id}`);
-                    }}
-                  >
-                    Eliminar
-                  </button>
-                </td> */}
+                <td>
+                  {editingId === stock.id ? (
+                    <div className="btn-group btn-group-sm" role="group">
+                      <button
+                        className="btn btn-success"
+                        disabled={saving}
+                        onClick={() => saveEdit(stock.id)}
+                      >
+                        Guardar
+                      </button>
+                      <button className="btn btn-secondary" onClick={cancelEdit}>
+                        Cancelar
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      className="btn btn-outline-primary btn-sm"
+                      title="Editar fecha de vencimiento"
+                      onClick={() => startEdit(stock)}
+                    >
+                      ✏️
+                    </button>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

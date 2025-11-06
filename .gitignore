@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .env
+
+# la carpeta administracion y sus archivos
+administracion/

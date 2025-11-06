@@ -66,4 +66,10 @@ export default class HttpService {
       return response;
     });
   }
+
+  async patchData(url, data) {
+    return axiosInstance.patch(url, data).then((response) => {
+      return response;
+    });
+  }
 }

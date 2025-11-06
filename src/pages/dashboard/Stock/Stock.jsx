@@ -324,6 +324,27 @@ const Stock = () => {
                     selectedStockIds={selectedStockIds}
                     setSelectedStockIds={setSelectedStockIds}
                     toggleStockSelection={toggleStockSelection}
+                    onEditExpiration={async (id, newDate) => {
+                        try {
+                            const resp = await httpService.patchData(`/stock/${id}/expiration`, {
+                                expirationDate: newDate || null,
+                            });
+                            if (resp.status === 200) {
+                                successAlert('Éxito', 'Fecha de vencimiento actualizada');
+                                // refrescar lista dentro del modal
+                                const r = await httpService.getData(
+                                    `/stock/${selectedProduct.id}/stockunits?storeId=${selectedStore}`
+                                );
+                                if (r.status === 200) setStockUnits(r.data);
+                            } else {
+                                errorAlert('Error', 'No se pudo actualizar la fecha');
+                            }
+                        } catch (e) {
+                            console.error('Error actualizando fecha:', e);
+                            const msg = e.response?.data?.message || 'Error al actualizar';
+                            errorAlert('Error', msg);
+                        }
+                    }}
                 />
                 <div className="modal-footer">
                     {selectedStockIds.length > 0 && (
