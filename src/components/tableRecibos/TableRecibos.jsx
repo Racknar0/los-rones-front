@@ -331,12 +331,29 @@ const TableRecibos = () => {
                 }
             >
                 {selected && (
+                    (() => {
+                        const totalWithoutCoupon = Number(selected.totalWithoutCoupon || 0);
+                        const totalAmount = Number(selected.totalAmount || 0);
+                        const globalDiscount = Math.max(totalWithoutCoupon - totalAmount, 0);
+                        return (
                     <div>
                         <ul className="list-unstyled row mb-4">
                             <li className="col-12 col-md-6">
                                 <div className="chip">
                                     <strong>Ticket:</strong>{' '}
                                     {selected.ticketNumber}
+                                </div>
+                            </li>
+                            <li className="col-12 col-md-6">
+                                <div className="chip">
+                                    <strong>Cupón ticket:</strong>{' '}
+                                    {selected.couponCode || 'N/A'}
+                                </div>
+                            </li>
+                            <li className="col-12 col-md-6">
+                                <div className="chip">
+                                    <strong>Descuento ticket:</strong>{' '}
+                                    ${globalDiscount.toFixed(2)}
                                 </div>
                             </li>
                         </ul>
@@ -369,6 +386,8 @@ const TableRecibos = () => {
                             </table>
                         </div>
                     </div>
+                        );
+                    })()
                 )}
             </Modal>
         </div>
