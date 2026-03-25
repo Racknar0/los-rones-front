@@ -1,7 +1,7 @@
 // src/components/TableRecibos/TableMovimientos.jsx
 import React, { useEffect, useState, useRef } from 'react';
 import { DateRange } from 'react-date-range';
-import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import HttpService from '../../services/HttpService';
 import './TableMovimientos.scss';
@@ -119,37 +119,114 @@ const TableMovimientos = () => {
   // ----------------------------------------------------
   // Exportar movimientos filtrados a Excel
   // ----------------------------------------------------
-  const exportarMovimientos = () => {
-    // 1) Prepara las filas basadas en filteredMovimientos
-    const rows = filteredMovimientos.map(mov => {
+  const exportarMovimientos = async () => {
+    const toNumberOrNull = (value) => {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : null;
+    };
 
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Movimientos', {
+      views: [{ state: 'frozen', ySplit: 4 }],
+    });
 
-      console.log('Movimiento:', mov);
+    const columns = [
+      { header: 'Accion', key: 'accion', width: 14 },
+      { header: 'Tienda', key: 'tienda', width: 22 },
+      { header: 'Producto', key: 'producto', width: 40 },
+      { header: 'Precio Compra', key: 'precioCompra', width: 16 },
+      { header: 'Precio Venta', key: 'precioVenta', width: 16 },
+      { header: 'Usuario', key: 'usuario', width: 18 },
+      { header: 'Fecha', key: 'fecha', width: 22 },
+    ];
 
-      return {
-        Acción:      mov.action,
-        Tienda:      mov.store?.name || '',
-        Producto:    mov.product?.name || '',
-        Precio_Compra: mov.product?.purchasePrice || 0,
-        Precio_Venta: mov.product?.salePrice || 0,
-        Usuario:     mov.user?.user || '',
-        Fecha:       new Date(mov.createdAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short', hour12: false })
+    worksheet.columns = columns;
+
+    const todayText = new Date().toLocaleString('es-MX');
+    worksheet.mergeCells(1, 1, 1, columns.length);
+    worksheet.getCell('A1').value = 'Reporte de Movimientos';
+    worksheet.getCell('A1').font = { bold: true, size: 16, color: { argb: 'FF1F2937' } };
+    worksheet.getCell('A1').alignment = { horizontal: 'center', vertical: 'middle' };
+
+    worksheet.mergeCells(2, 1, 2, columns.length);
+    worksheet.getCell('A2').value = `Generado: ${todayText}`;
+    worksheet.getCell('A2').font = { italic: true, size: 11, color: { argb: 'FF4B5563' } };
+    worksheet.getCell('A2').alignment = { horizontal: 'center', vertical: 'middle' };
+
+    worksheet.getRow(4).values = columns.map((c) => c.header);
+
+    filteredMovimientos.forEach((mov) => {
+      worksheet.addRow({
+        accion: mov.action,
+        tienda: mov.store?.name || '',
+        producto: mov.product?.name || '',
+        precioCompra: toNumberOrNull(mov.product?.purchasePrice),
+        precioVenta: toNumberOrNull(mov.product?.salePrice),
+        usuario: mov.user?.user || '',
+        fecha: new Date(mov.createdAt).toLocaleString('es-ES', {
+          dateStyle: 'short',
+          timeStyle: 'short',
+          hour12: false,
+        }),
+      });
+    });
+
+    const headerRow = worksheet.getRow(4);
+    headerRow.eachCell((cell) => {
+      cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF374151' },
+      };
+      cell.alignment = { horizontal: 'left', vertical: 'middle', indent: 1 };
+      cell.border = {
+        top: { style: 'thin', color: { argb: 'FFD1D5DB' } },
+        left: { style: 'thin', color: { argb: 'FFD1D5DB' } },
+        bottom: { style: 'thin', color: { argb: 'FFD1D5DB' } },
+        right: { style: 'thin', color: { argb: 'FFD1D5DB' } },
       };
     });
 
-    console.log('Exportando movimientos:', rows);
+    worksheet.autoFilter = {
+      from: { row: 4, column: 1 },
+      to: { row: 4, column: columns.length },
+    };
 
-    // 2) Crea la hoja y el libro
-    const worksheet = XLSX.utils.json_to_sheet(rows, {
-      header: ['Acción', 'Tienda', 'Producto', 'Precio_Compra', 'Precio_Venta', 'Usuario', 'Fecha'],
+    for (let rowNumber = 5; rowNumber <= worksheet.rowCount; rowNumber += 1) {
+      const row = worksheet.getRow(rowNumber);
+      const isEven = rowNumber % 2 === 0;
+
+      row.eachCell((cell) => {
+        cell.alignment = { vertical: 'middle' };
+        cell.border = {
+          top: { style: 'thin', color: { argb: 'FFE5E7EB' } },
+          left: { style: 'thin', color: { argb: 'FFE5E7EB' } },
+          bottom: { style: 'thin', color: { argb: 'FFE5E7EB' } },
+          right: { style: 'thin', color: { argb: 'FFE5E7EB' } },
+        };
+        if (isEven) {
+          cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFF9FAFB' },
+          };
+        }
+      });
+
+      [4, 5].forEach((columnIndex) => {
+        const cell = row.getCell(columnIndex);
+        if (typeof cell.value === 'number') {
+          cell.numFmt = '$#,##0.00';
+        }
+      });
+    }
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Movimientos');
-
-    // 3) Genera el buffer y dispara la descarga
-    const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([wbout], { type: 'application/octet-stream' });
-    const fileName = `movimientos_${new Date().toISOString().slice(0,10)}.xlsx`;
+    const fileName = `movimientos_${new Date().toISOString().slice(0, 10)}.xlsx`;
     saveAs(blob, fileName);
   };
 

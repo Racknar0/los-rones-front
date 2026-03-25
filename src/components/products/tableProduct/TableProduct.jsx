@@ -13,7 +13,7 @@ import HttpService from '../../../services/HttpService';
 import productDefaultImg from '../../../assets/product_default.png';
 import ZoomableImage from '../../ZoomableImage/ZoomableImage';
 import useStore from '../../../store/useStore';
-import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 
 const TableProduct = ({
@@ -84,37 +84,111 @@ const TableProduct = ({
   // ----------------------------------------------------
   // Exportar productos filtrados a Excel
   // ----------------------------------------------------
-  const exportarProductos = () => {
-    // 1) Preparar filas
-    const rows = filteredProducts.map((u) => ({
-      Categoría:  u.category?.name || '',
-      Nombre:     u.name || '',
-      Código:     u.code || '',
-      'Código de Barras': u.barcode || '',
-      'Precio Compra': u.purchasePrice != null ? u.purchasePrice : '',
-      'Precio Venta':  u.salePrice != null ? u.salePrice : '',
-      Perecedero: u.perishable === true ? 'Sí' : 'No',
-      'Tiene Impuesto': u.hasTax === true ? 'Sí' : 'No',
-    }));
+  const exportarProductos = async () => {
+    const toNumberOrNull = (value) => {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : null;
+    };
 
-    // 2) Crear hoja y libro
-    const worksheet = XLSX.utils.json_to_sheet(rows, {
-      header: [
-        'Categoría',
-        'Nombre',
-        'Código',
-        'Precio Compra',
-        'Precio Venta',
-        'Perecedero',
-        'Tiene Impuesto',
-      ],
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Productos', {
+      views: [{ state: 'frozen', ySplit: 4 }],
     });
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Productos');
 
-    // 3) Generar buffer y disparar descarga
-    const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([wbout], { type: 'application/octet-stream' });
+    const columns = [
+      { header: 'Categoria', key: 'categoria', width: 22 },
+      { header: 'Nombre', key: 'nombre', width: 36 },
+      { header: 'Codigo', key: 'codigo', width: 18 },
+      { header: 'Codigo de Barras', key: 'codigoBarras', width: 22 },
+      { header: 'Precio Compra', key: 'precioCompra', width: 15 },
+      { header: 'Precio Venta', key: 'precioVenta', width: 15 },
+      { header: 'Perecedero', key: 'perecedero', width: 14 },
+      { header: 'Tiene Impuesto', key: 'tieneImpuesto', width: 16 },
+    ];
+
+    worksheet.columns = columns;
+
+    const todayText = new Date().toLocaleString('es-MX');
+    worksheet.mergeCells(1, 1, 1, columns.length);
+    worksheet.getCell('A1').value = 'Reporte de Productos';
+    worksheet.getCell('A1').font = { bold: true, size: 16, color: { argb: 'FF1F2937' } };
+    worksheet.getCell('A1').alignment = { horizontal: 'center', vertical: 'middle' };
+
+    worksheet.mergeCells(2, 1, 2, columns.length);
+    worksheet.getCell('A2').value = `Generado: ${todayText}`;
+    worksheet.getCell('A2').font = { italic: true, size: 11, color: { argb: 'FF4B5563' } };
+    worksheet.getCell('A2').alignment = { horizontal: 'center', vertical: 'middle' };
+
+    worksheet.getRow(4).values = columns.map((c) => c.header);
+
+    filteredProducts.forEach((u) => {
+      worksheet.addRow({
+        categoria: u.category?.name || '',
+        nombre: u.name || '',
+        codigo: u.code || '',
+        codigoBarras: u.barcode || '',
+        precioCompra: toNumberOrNull(u.purchasePrice),
+        precioVenta: toNumberOrNull(u.salePrice),
+        perecedero: u.perishable === true ? 'Si' : 'No',
+        tieneImpuesto: u.hasTax === true ? 'Si' : 'No',
+      });
+    });
+
+    const headerRow = worksheet.getRow(4);
+    headerRow.eachCell((cell) => {
+      cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF374151' },
+      };
+      cell.alignment = { horizontal: 'left', vertical: 'middle', indent: 1 };
+      cell.border = {
+        top: { style: 'thin', color: { argb: 'FFD1D5DB' } },
+        left: { style: 'thin', color: { argb: 'FFD1D5DB' } },
+        bottom: { style: 'thin', color: { argb: 'FFD1D5DB' } },
+        right: { style: 'thin', color: { argb: 'FFD1D5DB' } },
+      };
+    });
+
+    worksheet.autoFilter = {
+      from: { row: 4, column: 1 },
+      to: { row: 4, column: columns.length },
+    };
+
+    for (let rowNumber = 5; rowNumber <= worksheet.rowCount; rowNumber += 1) {
+      const row = worksheet.getRow(rowNumber);
+      const isEven = rowNumber % 2 === 0;
+
+      row.eachCell((cell) => {
+        cell.alignment = { vertical: 'middle' };
+        cell.border = {
+          top: { style: 'thin', color: { argb: 'FFE5E7EB' } },
+          left: { style: 'thin', color: { argb: 'FFE5E7EB' } },
+          bottom: { style: 'thin', color: { argb: 'FFE5E7EB' } },
+          right: { style: 'thin', color: { argb: 'FFE5E7EB' } },
+        };
+        if (isEven) {
+          cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFF9FAFB' },
+          };
+        }
+      });
+
+      [5, 6].forEach((columnIndex) => {
+        const cell = row.getCell(columnIndex);
+        if (typeof cell.value === 'number') {
+          cell.numFmt = '$#,##0.00';
+        }
+      });
+    }
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
     const fileName = `productos_${new Date().toISOString().slice(0, 10)}.xlsx`;
     saveAs(blob, fileName);
   };
